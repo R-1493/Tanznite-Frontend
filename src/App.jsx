@@ -8,6 +8,10 @@ import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
 
 function App() {
+  const steps = ["Gemstone Category", "Gemstone Shape", "Jeweller Setting"];
+
+  const [currentStep, setCurrentStep] = useState(1);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -16,6 +20,9 @@ function App() {
   const [isOpen2, setIsOpen2] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedBy, setSelectedBy] = useState([]);
+
+  const [activeStep, setActiveStep] = useState(0);
+  const [skipped, setSkipped] = useState(new Set());
 
   let url = "https://api.escuelajs.co/api/v1/products";
   useEffect(() => {
@@ -76,6 +83,13 @@ function App() {
               selectedBy={selectedBy}
               setSelectedBy={setSelectedBy}
               products={products}
+              currentStep={currentStep}
+              setCurrentStep={setCurrentStep}
+              activeStep={activeStep}
+              setActiveStep={setActiveStep}
+              steps={steps}
+              skipped={skipped}
+              setSkipped={setSkipped}
             />
           ),
         },

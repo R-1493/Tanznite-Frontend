@@ -6,6 +6,9 @@ import { TiArrowForwardOutline } from "react-icons/ti";
 import { GoHeart } from "react-icons/go";
 import { SlBag } from "react-icons/sl";
 import { SlArrowDown } from "react-icons/sl";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import { MdOutlineDownloadDone } from "react-icons/md";
 
 function SidBar(props) {
   const {
@@ -15,6 +18,12 @@ function SidBar(props) {
     setIsOpen2,
     selectedProduct,
     selectedBy,
+    setSelectedBy,
+    setActiveStep,
+    activeStep,
+    steps,
+    skipped,
+    setSkipped,
   } = props;
 
   const toggleDropdown1 = () => {
@@ -28,6 +37,22 @@ function SidBar(props) {
   const handleCategorySelect = (category) => {
     setSelectedBy([category]);
   };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleNext = () => {
+    let newSkipped = skipped;
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setSkipped(newSkipped);
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+  };
+  const totalSteps = steps ? steps.length : 3;
+
   return (
     <div className="sticky top-0 z-30">
       <div className="relative flex flex-col columns-1 px-6 py-1 rounded-2xl border bg-white mb-3 pt-4">
@@ -100,11 +125,42 @@ function SidBar(props) {
               )}
             </ul>
             <div className="flex pt-11">
-              <div className="relative  flex items-center justify-around bottom-6 lg:bottom-14  z-40 lg:h-[%40] h-12  w-full gap-1 rounded-full bg-neutral-100/50 backdrop-blur-md ">
-                <TiArrowBackOutline className="w-1/4 text-gray-500" />{" "}
-                <GoHeart className="w-1/4 text-gray-500" />
-                <SlBag className="w-1/4 text-gray-500" />
-                <TiArrowForwardOutline className="w-1/4 text-gray-500" />
+              <div className="relative flex items-center justify-around bottom-6 lg:bottom-14 z-40 lg:h-12 h-12 w-full gap-1 rounded-full bg-neutral-100/50 backdrop-blur-md">
+                {activeStep === totalSteps ? (
+                  <Box
+                    sx={{ display: "flex", flexDirection: "row", pt: 2 }}
+                    className="pb-3"
+                  >
+                    <Box sx={{ flex: "1 1 auto" }} />
+                    <Button onClick={handleReset}>Reset</Button>
+                  </Box>
+                ) : (
+                  <>
+                    <button
+                      className="w-1/4 justify-items-center"
+                      disabled={activeStep === 0}
+                      onClick={handleBack}
+                    >
+                      <TiArrowBackOutline className="text-gray-500" />
+                    </button>
+                    <button className="w-1/4 justify-items-center">
+                      <GoHeart className="text-gray-500" />
+                    </button>
+                    <button className="w-1/4 justify-items-center">
+                      <SlBag className="text-gray-500" />
+                    </button>
+                    <button
+                      className="w-1/4 justify-items-center"
+                      onClick={handleNext}
+                    >
+                      {activeStep === totalSteps - 1 ? (
+                        <MdOutlineDownloadDone className=" text-green-400" />
+                      ) : (
+                        <TiArrowForwardOutline className=" text-gray-500" />
+                      )}
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </div>
