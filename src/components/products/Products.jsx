@@ -87,8 +87,50 @@ function Products(props) {
   if (error) {
     return <div>Error: {error}</div>;
   }
+  let filteredShapes = [];
+  // console.log(selectedProduct.l);
+  const handleNextStep = () => {
+    if (activeStep === 0 && selectedProduct.length == 0) return;
+    if (activeStep === 1 && selectedProduct.length == 1) return;
+    if (activeStep === 2 && selectedProduct.length == 2) return;
 
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    let newSkipped = skipped;
+    setSkipped(newSkipped);
+  };
+  const handleNext = (category, product) => {
+    let selectedProducts;
+
+    switch (category) {
+      case "gemstones":
+        selectedProducts = [...selectedProduct.gemstones];
+        break;
+      case "shapes":
+        selectedProducts = [...selectedProduct.shapes];
+        break;
+      case "jewelry":
+        selectedProducts = [...selectedProduct.jewelry];
+        break;
+    }
+
+    selectedProducts[0] = product;
+
+    setSelectedProduct({
+      ...selectedProduct,
+      [category]: selectedProducts,
+    });
+
+    setIsOpen2(true);
+  };
+  const selectedGemstone = selectedProduct.gemstones[0]?.gemstoneId;
+  console.log(selectedGemstone);
   const displayStep = (step) => {
+    if (step === 1) {
+      filteredShapes =
+        data?.gemstonesShape?.filter(
+          (shape) => shape.gemstoneId === selectedGemstone
+        ) || [];
+    }
     switch (step) {
       case 0:
         return (
@@ -98,6 +140,7 @@ function Products(props) {
               selectedProduct={selectedProduct}
               setSelectedProduct={setSelectedProduct}
               gemstones={data.gemstones}
+              handleNext={handleNext}
             />
             <div className="w-full flex justify-center mt-4">
               <ProductPagination
@@ -115,7 +158,8 @@ function Products(props) {
               setIsOpen2={setIsOpen2}
               selectedProduct={selectedProduct}
               setSelectedProduct={setSelectedProduct}
-              gemstonesShape={data.gemstonesShape}
+              gemstonesShape={filteredShapes}
+              handleNext={handleNext}
             />
             <div className="w-full flex justify-center mt-4">
               <ProductPagination
@@ -134,7 +178,8 @@ function Products(props) {
               selectedProduct={selectedProduct}
               setSelectedProduct={setSelectedProduct}
               jewelry={data.jewelry}
-            />{" "}
+              handleNext={handleNext}
+            />
             <div className="w-full flex justify-center mt-4">
               <ProductPagination
                 totalCount={totalCount}
@@ -148,6 +193,7 @@ function Products(props) {
         return null;
     }
   };
+
   return (
     <section className="border-gray-800 bg-[#D4D4D4] body-font pb-20 pt-3 justify-center">
       <div className="container px-5 py-0 mx-auto">
@@ -165,6 +211,8 @@ function Products(props) {
               setActiveStep={setActiveStep}
               skipped={skipped}
               setSkipped={setSkipped}
+              handleNext={handleNextStep}
+              filteredShapes={filteredShapes}
             />
           </div>
           <div className="pl-3 pr-3 w-[50%] sm:w-3/4 lg:w-3/4 justify-center ml-auto mr-auto">

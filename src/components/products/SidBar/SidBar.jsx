@@ -22,8 +22,9 @@ function SidBar(props) {
     setActiveStep,
     activeStep,
     steps,
-    skipped,
-    setSkipped,
+    handleNext,
+    filteredShapes,
+    d,
   } = props;
 
   const toggleDropdown1 = () => {
@@ -42,12 +43,31 @@ function SidBar(props) {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleNext = () => {
-    let newSkipped = skipped;
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
-  };
+  // const handleNext = (category, product) => {
+  //   let selectedProducts;
 
+  //   switch (category) {
+  //     case "gemstones":
+  //       selectedProducts = [...selected.gemstones];
+  //       break;
+  //     case "shapes":
+  //       selectedProducts = [...selected.shapes];
+  //       break;
+  //     case "jewelry":
+  //       selectedProducts = [...selected.jewelry];
+  //       break;
+  //   }
+
+  //   selectedProducts[0] = product;
+
+  //   setSelected({
+  //     ...selected,
+  //     [category]: selectedProducts,
+  //   });
+
+  //   setIsOpen2(true);
+  // };
+  console.log(selectedProduct);
   const handleReset = () => {
     setActiveStep(0);
   };
@@ -152,6 +172,11 @@ function SidBar(props) {
                     <button
                       className="w-1/4 justify-items-center"
                       onClick={handleNext}
+                      disabled={
+                        (activeStep === 0 && selectedProduct.length == 0) ||
+                        (activeStep === 1 && selectedProduct.length == 1) ||
+                        (activeStep === 2 && selectedProduct.length == 2)
+                      }
                     >
                       {activeStep === totalSteps - 1 ? (
                         <MdOutlineDownloadDone className=" text-green-400" />

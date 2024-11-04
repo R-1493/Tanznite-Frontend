@@ -1,10 +1,20 @@
 import React from "react";
+// step 0
 function GemstoneCategory(props) {
-  const { setIsOpen2, setSelectedProduct, selectedProduct, gemstones } = props;
+  const {
+    setIsOpen2,
+    setSelectedProduct,
+    selectedProduct,
+    gemstones,
+    handleNext,
+  } = props;
 
+  // const handleProductSelect = (product) => {
+  //   setSelectedProduct([product]);
+  //   setIsOpen2(true);
+  // };
   const handleProductSelect = (product) => {
-    setSelectedProduct(product);
-    setIsOpen2(true);
+    handleNext("gemstones", product);
   };
   return (
     <div className="flex flex-wrap justify-start">

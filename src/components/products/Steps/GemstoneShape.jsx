@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
-import ProductPagination from "../ProductPagination";
-import axios from "axios";
+// step 1
 
 function GemstoneShape(props) {
-  const { setIsOpen2, setSelectedProduct, selectedProduct, gemstonesShape } =
-    props;
+  const {
+    setIsOpen2,
+    setSelectedProduct,
+    selectedProduct,
+    gemstonesShape,
+    handleNext,
+  } = props;
 
   const handleProductSelect = (product) => {
-    setSelectedProduct(product);
-    setIsOpen2(true);
+    handleNext("shapes", product);
   };
   return (
     <div className="flex flex-wrap justify-start">

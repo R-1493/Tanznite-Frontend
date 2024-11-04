@@ -1,11 +1,17 @@
 import React from "react";
+// step 3
 
 function JewellerySetting(props) {
-  const { setIsOpen2, setSelectedProduct, selectedProduct, jewelry } = props;
+  const {
+    setIsOpen2,
+    setSelectedProduct,
+    selectedProduct,
+    jewelry,
+    handleNext,
+  } = props;
 
   const handleProductSelect = (product) => {
-    setSelectedProduct(product);
-    setIsOpen2(true);
+    handleNext("jewelry", product);
   };
   return (
     <div className="flex flex-wrap justify-start">
