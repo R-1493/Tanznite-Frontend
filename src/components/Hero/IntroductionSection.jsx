@@ -11,7 +11,7 @@ const IntroductionSection = () => {
               With Love , Since 1990
             </h2>
             <p className="text-center text-lg text-white mt-4">
-              An homage to an iconic motif from 1975, T by Tiffany is an
+              An homage to an iconic motif from 1975, T by TANZANITE is an
               expression of love’s endless potential.
             </p>
             <div className="flex justify-center">

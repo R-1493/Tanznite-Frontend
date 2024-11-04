@@ -117,7 +117,7 @@ function SidBar(props) {
                       <img
                         alt="content"
                         className="object-fill object-center h-full w-full"
-                        src={selectedProduct.images[0]}
+                        src={selectedProduct.images}
                       />
                     </div>
                   </div>

@@ -13,7 +13,6 @@ function ShopPage(props) {
     setSelectedProduct,
     selectedBy,
     setSelectedBy,
-    products,
     currentStep,
     setCurrentStep,
     setActiveStep,
@@ -21,6 +20,14 @@ function ShopPage(props) {
     steps,
     skipped,
     setSkipped,
+    // gemstonesTotalCount,
+    // page,
+    // HandleChange,
+    // gemstones,
+    // jewelry,
+    // gemstonesShape,
+    // gemstonesShapeTotalCount,
+    // jewelryTotalCount,
   } = props;
   return (
     <>
@@ -42,12 +49,19 @@ function ShopPage(props) {
           setSelectedProduct={setSelectedProduct}
           selectedBy={selectedBy}
           setSelectedBy={setSelectedBy}
-          products={products}
           activeStep={activeStep}
           setActiveStep={setActiveStep}
           steps={steps}
           skipped={skipped}
           setSkipped={setSkipped}
+          // gemstonesTotalCount={gemstonesTotalCount}
+          // gemstonesShapeTotalCount={gemstonesShapeTotalCount}
+          // jewelryTotalCount={jewelryTotalCount}
+          // page={page}
+          // HandleChange={HandleChange}
+          // gemstones={gemstones}
+          // jewelry={jewelry}
+          // gemstonesShape={gemstonesShape}
         />
       </div>
     </>

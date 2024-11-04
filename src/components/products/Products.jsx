@@ -1,8 +1,11 @@
-import React from "react";
+import { React, useState, useEffect } from "react";
 import SidBar from "./SidBar/SidBar";
 import GemstoneCategory from "./Steps/GemstoneCategory";
 import GemstoneShape from "./Steps/GemstoneShape";
 import JewellerySetting from "./Steps/JewellerySetting";
+import CircularProgress from "@mui/material/CircularProgress";
+import axios from "axios";
+import ProductPagination from "./ProductPagination";
 
 function Products(props) {
   const {
@@ -14,7 +17,6 @@ function Products(props) {
     setSelectedProduct,
     selectedBy,
     setSelectedBy,
-    products,
     setActiveStep,
     activeStep,
     skipped,
@@ -22,21 +24,120 @@ function Products(props) {
     steps,
   } = props;
 
+  const [page, setPage] = useState(1);
+  const [data, setData] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const limit = 4;
+  const offset = (page - 1) * limit;
+  const urls = [
+    "http://localhost:5125/api/v1/Gemstone",
+    "http://localhost:5125/api/v1/GemstoneShape",
+    "http://localhost:5125/api/v1/Jewelry",
+  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(urls[activeStep], {
+          params: {
+            Limit: limit,
+            Offset: offset,
+            MinPrice: 0,
+            MaxPrice: 10000,
+          },
+        });
+        setData(response.data);
+        console.log(response.data);
+        setTotalCount(response.data.totalCount);
+        setLoading(false);
+      } catch (error) {
+        setError("Failed to fetch data");
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [activeStep, offset]);
+
+  console.log(data);
+
+  const handleChange = (event, value) => {
+    setPage(value);
+  };
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress>
+          <span className="visually-hidden">Loading...</span>
+        </CircularProgress>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   const displayStep = (step) => {
     switch (step) {
       case 0:
         return (
-          <GemstoneCategory
-            products={products}
-            setIsOpen2={setIsOpen2}
-            selectedProduct={selectedProduct}
-            setSelectedProduct={setSelectedProduct}
-          />
+          <>
+            <GemstoneCategory
+              setIsOpen2={setIsOpen2}
+              selectedProduct={selectedProduct}
+              setSelectedProduct={setSelectedProduct}
+              gemstones={data.gemstones}
+            />
+            <ProductPagination
+              totalCount={totalCount}
+              page={page}
+              HandleChange={handleChange}
+            />
+          </>
         );
       case 1:
-        return <GemstoneShape />;
+        return (
+          <>
+            <GemstoneShape
+              setIsOpen2={setIsOpen2}
+              selectedProduct={selectedProduct}
+              setSelectedProduct={setSelectedProduct}
+              gemstonesShape={data.gemstonesShape}
+            />
+            <ProductPagination
+              totalCount={totalCount}
+              page={page}
+              HandleChange={handleChange}
+            />
+          </>
+        );
       case 2:
-        return <JewellerySetting />;
+        return (
+          <>
+            <JewellerySetting
+              setIsOpen2={setIsOpen2}
+              selectedProduct={selectedProduct}
+              setSelectedProduct={setSelectedProduct}
+              jewelry={data.jewelry}
+            />{" "}
+            <ProductPagination
+              totalCount={totalCount}
+              page={page}
+              HandleChange={handleChange}
+            />
+          </>
+        );
       default:
         return null;
     }
