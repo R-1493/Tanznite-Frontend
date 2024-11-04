@@ -7,19 +7,20 @@ function GemstoneCategory(props) {
     setIsOpen2(true);
   };
   return (
-    <div className="flex flex-wrap justify-center">
+    <div className="flex flex-wrap justify-start">
       {gemstones && gemstones.length > 0 ? (
         gemstones.map((product) => (
           <div
             key={product.gemstoneId}
-            className={`p-4 lg:w-1/3 max-w-md cursor-pointer ${
-              selectedProduct && selectedProduct.id === product.gemstoneId
+            className={`p-4 lg:w-[50%] sm:w-[50%] max-w-md cursor-pointer ${
+              selectedProduct &&
+              selectedProduct.gemstoneId === product.gemstoneId
                 ? "border-b-4 border-[#584BA5]"
                 : ""
             }`}
             onClick={() => handleProductSelect(product)}
           >
-            <div className="h-auto overflow-hidden">
+            <div className="h-auto  overflow-hidden">
               <img
                 alt={product.gemstoneType}
                 className="object-fill object-center h-full w-full"

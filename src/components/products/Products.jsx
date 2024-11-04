@@ -92,51 +92,57 @@ function Products(props) {
     switch (step) {
       case 0:
         return (
-          <>
+          <div>
             <GemstoneCategory
               setIsOpen2={setIsOpen2}
               selectedProduct={selectedProduct}
               setSelectedProduct={setSelectedProduct}
               gemstones={data.gemstones}
             />
-            <ProductPagination
-              totalCount={totalCount}
-              page={page}
-              HandleChange={handleChange}
-            />
-          </>
+            <div className="w-full flex justify-center mt-4">
+              <ProductPagination
+                totalCount={totalCount}
+                page={page}
+                HandleChange={handleChange}
+              />
+            </div>
+          </div>
         );
       case 1:
         return (
-          <>
+          <div>
             <GemstoneShape
               setIsOpen2={setIsOpen2}
               selectedProduct={selectedProduct}
               setSelectedProduct={setSelectedProduct}
               gemstonesShape={data.gemstonesShape}
             />
-            <ProductPagination
-              totalCount={totalCount}
-              page={page}
-              HandleChange={handleChange}
-            />
-          </>
+            <div className="w-full flex justify-center mt-4">
+              <ProductPagination
+                totalCount={totalCount}
+                page={page}
+                HandleChange={handleChange}
+              />
+            </div>
+          </div>
         );
       case 2:
         return (
-          <>
+          <div>
             <JewellerySetting
               setIsOpen2={setIsOpen2}
               selectedProduct={selectedProduct}
               setSelectedProduct={setSelectedProduct}
               jewelry={data.jewelry}
             />{" "}
-            <ProductPagination
-              totalCount={totalCount}
-              page={page}
-              HandleChange={handleChange}
-            />
-          </>
+            <div className="w-full flex justify-center mt-4">
+              <ProductPagination
+                totalCount={totalCount}
+                page={page}
+                HandleChange={handleChange}
+              />
+            </div>
+          </div>
         );
       default:
         return null;

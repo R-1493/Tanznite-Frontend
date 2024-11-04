@@ -11,7 +11,7 @@ function GemstoneShape(props) {
     setIsOpen2(true);
   };
   return (
-    <div className="flex flex-wrap justify-center">
+    <div className="flex flex-wrap justify-start">
       {gemstonesShape && gemstonesShape.length > 0 ? (
         gemstonesShape.map((product) => (
           <div
@@ -25,7 +25,7 @@ function GemstoneShape(props) {
             onClick={() => handleProductSelect(product)}
           >
             {" "}
-            <div className="h-auto overflow-hidden">
+            <div className="h-auto overflow-hidden bg-white">
               <img
                 alt={product.gemstoneShapWeight}
                 className="object-fill object-center h-full w-full"
@@ -33,7 +33,8 @@ function GemstoneShape(props) {
               />
             </div>
             <h2 className="text-xl font-medium title-font text-gray-900 mt-5">
-              {product.gemstoneShapWeight}
+              {product.shapeName}{" "}
+              <span>{product.gemstoneShapWeight}carats</span>
             </h2>
             <p className="text-base leading-relaxed">
               ${product.gemstoneShapPrice}

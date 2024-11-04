@@ -8,7 +8,7 @@ function JewellerySetting(props) {
     setIsOpen2(true);
   };
   return (
-    <div className="flex flex-wrap justify-center">
+    <div className="flex flex-wrap justify-start">
       {jewelry && jewelry.length > 0 ? (
         jewelry.map((product) => (
           <div
