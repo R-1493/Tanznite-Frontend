@@ -10,6 +10,8 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { MdOutlineDownloadDone } from "react-icons/md";
 import { VscDebugRestart } from "react-icons/vsc";
+import { FaRegHeart } from "react-icons/fa";
+import { IoHeart } from "react-icons/io5";
 
 function SidBar(props) {
   const {
@@ -25,6 +27,8 @@ function SidBar(props) {
     steps,
     handleNext,
     setSelectedProduct,
+    storedWishList,
+    setStoredWishList,
   } = props;
   const [showReset, setShowReset] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
@@ -62,6 +66,42 @@ function SidBar(props) {
     setActiveStep(-1);
     setShowReset(false);
     setIsComplete(false);
+  };
+
+  const addToFav = (product) => {
+    if (isInWishlist(product)) {
+      setStoredWishList(
+        storedWishList.filter((wishlistItem) => {
+          const isSameJewelry =
+            wishlistItem.jewelry[0].jewelryId === product.jewelry[0].jewelryId;
+          const isSameGemstone =
+            wishlistItem.gemstones[0].gemstoneId ===
+            product.gemstones[0].gemstoneId;
+          const isSameShape =
+            wishlistItem.shapes[0].gemstoneShapeId ===
+            product.shapes[0].gemstoneShapeId;
+
+          return !(isSameJewelry && isSameGemstone && isSameShape);
+        })
+      );
+    } else {
+      setStoredWishList([...storedWishList, product]);
+    }
+  };
+
+  const isInWishlist = (product) => {
+    return storedWishList.some((wishlistItem) => {
+      const isSameJewelry =
+        wishlistItem.jewelry[0].jewelryId === product.jewelry[0].jewelryId;
+      const isSameGemstone =
+        wishlistItem.gemstones[0].gemstoneId ===
+        product.gemstones[0].gemstoneId;
+      const isSameShape =
+        wishlistItem.shapes[0].gemstoneShapeId ===
+        product.shapes[0].gemstoneShapeId;
+
+      return isSameJewelry && isSameGemstone && isSameShape;
+    });
   };
 
   const determineArrowColor = () => {
@@ -190,11 +230,18 @@ function SidBar(props) {
                       <TiArrowBackOutline className="text-gray-500" />
                     </button>
                   )}
-
                   {isComplete ? (
                     <>
-                      <button className="w-1/4 justify-items-center">
-                        <GoHeart className="text-gray-500" />
+                      <button onClick={() => addToFav(selectedProduct)}>
+                        {isInWishlist(selectedProduct) ? (
+                          <IoHeart
+                            style={{ color: "red", marginRight: "0.5rem" }}
+                          />
+                        ) : (
+                          <FaRegHeart
+                            style={{ color: "#666666", marginRight: "0.5rem" }}
+                          />
+                        )}
                       </button>
                       <button className="w-1/4 justify-items-center">
                         <SlBag className="text-gray-500" />
@@ -210,7 +257,6 @@ function SidBar(props) {
                       </button>
                     </>
                   )}
-
                   <button
                     className="w-1/4 justify-items-center"
                     onClick={handleNext}

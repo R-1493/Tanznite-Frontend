@@ -21,6 +21,8 @@ function Products(props) {
     activeStep,
     skipped,
     setSkipped,
+    storedWishList,
+    setStoredWishList,
   } = props;
 
   const [page, setPage] = useState(1);
@@ -212,6 +214,8 @@ function Products(props) {
               setSkipped={setSkipped}
               handleNext={handleNextStep}
               setSelectedProduct={setSelectedProduct}
+              storedWishList={storedWishList}
+              setStoredWishList={setStoredWishList}
             />
           </div>
           <div className="pl-3 pr-3 w-[50%] sm:w-3/4 lg:w-3/4 justify-center ml-auto mr-auto">

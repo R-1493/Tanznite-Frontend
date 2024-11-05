@@ -31,9 +31,9 @@ export default function NavBar() {
           <a href="/WishList">
             <GoHeart className="h-4 w-4 hidden hover:text-indigo-700 md:flex" />
           </a>
-          <a href="/">
+          {/* <a href="/">
             <LiaSearchSolid className="h-4 w-4 hover:text-indigo-700 hidden md:flex" />
-          </a>
+          </a> */}
         </div>
 
         <h1 className="text-center flex-1 tracking-[5px] font-light">
@@ -55,22 +55,28 @@ export default function NavBar() {
           {isOpen && (
             <div className="fixed inset-y-0 right-0 w-60 h-80 px-6 z-10 py-6 sm:ring-1justify-center bg-gray-100 bg-opacity-40 backdrop-blur-md md:hidden">
               <div className="fixed top-24 flex flex-col space-y-4  text-gray-600">
-                <NavItem
-                  icon={<LiaSearchSolid className="h-4 w-4" alt="#" />}
-                  text="Search"
-                />
-                <NavItem
-                  icon={<GoHeart className="h-4 w-4" alt="#" />}
-                  text="Favorites"
-                />
+                {/* <a>
+                  <NavItem
+                    icon={<LiaSearchSolid className="h-4 w-4" alt="#" />}
+                    text="Search"
+                  />
+                </a> */}
+                <a href="/WishList">
+                  <NavItem
+                    icon={<GoHeart className="h-4 w-4" alt="#" />}
+                    text="Favorites"
+                  />
+                </a>
+                <a>
+                  <NavItem
+                    icon={<img src={img} className="h-5 w-5" />}
+                    text="Profile"
+                  />
+                </a>
 
-                <NavItem
-                  icon={<img src={img} className="h-5 w-5" />}
-                  text="Profile"
-                />
-                <div className="flex items-center">
+                <a className="flex items-center">
                   <p className="px-5 text-sm">Sign up</p>
-                </div>
+                </a>
               </div>
             </div>
           )}
