@@ -22,6 +22,8 @@ function ShopPage(props) {
     setSkipped,
     storedWishList,
     setStoredWishList,
+    storedCart,
+    setStoredCart,
   } = props;
   return (
     <>
@@ -51,6 +53,8 @@ function ShopPage(props) {
           setSkipped={setSkipped}
           storedWishList={storedWishList}
           setStoredWishList={setStoredWishList}
+          storedCart={storedCart}
+          setStoredCart={setStoredCart}
         />
       </div>
     </>

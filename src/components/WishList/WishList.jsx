@@ -57,6 +57,7 @@ const WishList = (props) => {
                   <p>{product.shapes[0].shapeName}</p>
                 </td>
                 <td className="px-6 py-4 font-semibold text-gray-900 dark:text-black">
+                  ${" "}
                   {(
                     (product.jewelry[0]?.jewelryPrice || 0) +
                     (product.shapes[0]?.gemstoneShapPrice || 0)

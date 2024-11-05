@@ -21,9 +21,10 @@ function GemstoneShape(props) {
             key={product.gemstoneShapeId}
             className={`p-4 lg:w-1/3 max-w-md cursor-pointer ${
               selectedProduct &&
-              selectedProduct.gemstoneShapeId === product.gemstoneShapeId
-                ? "border-b-4 border-[#584BA5]"
-                : ""
+              selectedProduct.shapes[0]?.gemstoneShapeId ===
+                product.gemstoneShapeId
+                ? "border-b-4 border-[#584BA5] transition-all duration-200"
+                : "border-b-4 border-transparent"
             }`}
             onClick={() => handleProductSelect(product)}
           >

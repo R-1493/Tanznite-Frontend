@@ -23,6 +23,8 @@ function Products(props) {
     setSkipped,
     storedWishList,
     setStoredWishList,
+    storedCart,
+    setStoredCart,
   } = props;
 
   const [page, setPage] = useState(1);
@@ -216,6 +218,8 @@ function Products(props) {
               setSelectedProduct={setSelectedProduct}
               storedWishList={storedWishList}
               setStoredWishList={setStoredWishList}
+              storedCart={storedCart}
+              setStoredCart={setStoredCart}
             />
           </div>
           <div className="pl-3 pr-3 w-[50%] sm:w-3/4 lg:w-3/4 justify-center ml-auto mr-auto">

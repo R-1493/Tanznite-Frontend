@@ -23,7 +23,7 @@ function App() {
   const [skipped, setSkipped] = useState(new Set());
 
   const [storedWishList, setStoredWishList] = LocalStorage("WishList", []);
-  const [storedCart, setStoredCart] = useState();
+  const [storedCart, setStoredCart] = LocalStorage("Cart", []);
 
   const router = createBrowserRouter([
     {
@@ -55,6 +55,8 @@ function App() {
               setSkipped={setSkipped}
               storedWishList={storedWishList}
               setStoredWishList={setStoredWishList}
+              storedCart={storedCart}
+              setStoredCart={setStoredCart}
             />
           ),
         },

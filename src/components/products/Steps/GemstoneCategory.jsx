@@ -8,7 +8,7 @@ function GemstoneCategory(props) {
     gemstones,
     handleNext,
   } = props;
-
+  console.log(selectedProduct.gemstones[0]);
   const handleProductSelect = (product) => {
     handleNext("gemstones", product);
   };
@@ -20,9 +20,9 @@ function GemstoneCategory(props) {
             key={product.gemstoneId}
             className={`p-4 lg:w-[50%] sm:w-[50%] max-w-md cursor-pointer ${
               selectedProduct &&
-              selectedProduct.gemstoneId === product.gemstoneId
-                ? "border-b-4 border-[#584BA5]"
-                : ""
+              selectedProduct.gemstones[0]?.gemstoneId == product.gemstoneId
+                ? "border-b-4 border-[#584BA5] transition-all duration-200"
+                : "border-b-4 border-transparent"
             }`}
             onClick={() => handleProductSelect(product)}
           >

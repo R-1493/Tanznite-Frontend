@@ -20,7 +20,8 @@ function JewellerySetting(props) {
           <div
             key={product.jewelryId}
             className={`p-4 lg:w-1/3 max-w-md cursor-pointer ${
-              selectedProduct && selectedProduct.id === product.jewelryId
+              selectedProduct &&
+              selectedProduct.jewelry[0]?.jewelryId === product.jewelryId
                 ? "border-b-4 border-[#584BA5]"
                 : ""
             }`}

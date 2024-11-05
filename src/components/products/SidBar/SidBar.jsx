@@ -29,6 +29,8 @@ function SidBar(props) {
     setSelectedProduct,
     storedWishList,
     setStoredWishList,
+    storedCart,
+    setStoredCart,
   } = props;
   const [showReset, setShowReset] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
@@ -116,7 +118,27 @@ function SidBar(props) {
     }
     return "text-gray-500";
   };
+  const addToCart = (product) => {
+    const existingProductIndex = storedCart.findIndex((cartItem) => {
+      const isSameJewelry =
+        cartItem.jewelry[0].jewelryId === product.jewelry[0].jewelryId;
+      const isSameGemstone =
+        cartItem.gemstones[0].gemstoneId === product.gemstones[0].gemstoneId;
+      const isSameShape =
+        cartItem.shapes[0].gemstoneShapeId ===
+        product.shapes[0].gemstoneShapeId;
 
+      return isSameJewelry && isSameGemstone && isSameShape;
+    });
+
+    if (existingProductIndex > -1) {
+      const updatedCart = [...storedCart];
+      updatedCart[existingProductIndex].quantity += 1;
+      setStoredCart(updatedCart);
+    } else {
+      setStoredCart([...storedCart, { ...product, quantity: 1 }]);
+    }
+  };
   return (
     <div className="sticky top-0 z-30">
       <div className="relative flex flex-col columns-1 px-6 py-1 rounded-2xl border bg-white mb-3 pt-4">
@@ -207,7 +229,7 @@ function SidBar(props) {
                             src={selectedProduct.jewelry[0].jewelryImage}
                           />
                         ) : (
-                          <p>Please select a shape</p>
+                          <p>Please select a jewelry</p>
                         ))}
                     </div>
                   </div>
@@ -243,7 +265,10 @@ function SidBar(props) {
                           />
                         )}
                       </button>
-                      <button className="w-1/4 justify-items-center">
+                      <button
+                        onClick={() => addToCart(selectedProduct)}
+                        className="w-1/4 justify-items-center"
+                      >
                         <SlBag className="text-gray-500" />
                       </button>
                     </>
