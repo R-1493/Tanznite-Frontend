@@ -9,10 +9,6 @@ function GemstoneCategory(props) {
     handleNext,
   } = props;
 
-  // const handleProductSelect = (product) => {
-  //   setSelectedProduct([product]);
-  //   setIsOpen2(true);
-  // };
   const handleProductSelect = (product) => {
     handleNext("gemstones", product);
   };

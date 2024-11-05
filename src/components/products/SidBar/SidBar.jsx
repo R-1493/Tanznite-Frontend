@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import { FaCircle } from "react-icons/fa";
 import { TiArrowBackOutline } from "react-icons/ti";
@@ -9,6 +9,7 @@ import { SlArrowDown } from "react-icons/sl";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { MdOutlineDownloadDone } from "react-icons/md";
+import { VscDebugRestart } from "react-icons/vsc";
 
 function SidBar(props) {
   const {
@@ -23,9 +24,10 @@ function SidBar(props) {
     activeStep,
     steps,
     handleNext,
-    filteredShapes,
-    d,
+    setSelectedProduct,
   } = props;
+  const [showReset, setShowReset] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
 
   const toggleDropdown1 = () => {
     setIsOpen1(!isOpen1);
@@ -43,35 +45,37 @@ function SidBar(props) {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  // const handleNext = (category, product) => {
-  //   let selectedProducts;
-
-  //   switch (category) {
-  //     case "gemstones":
-  //       selectedProducts = [...selected.gemstones];
-  //       break;
-  //     case "shapes":
-  //       selectedProducts = [...selected.shapes];
-  //       break;
-  //     case "jewelry":
-  //       selectedProducts = [...selected.jewelry];
-  //       break;
-  //   }
-
-  //   selectedProducts[0] = product;
-
-  //   setSelected({
-  //     ...selected,
-  //     [category]: selectedProducts,
-  //   });
-
-  //   setIsOpen2(true);
-  // };
   console.log(selectedProduct);
-  const handleReset = () => {
-    setActiveStep(0);
+  const totalSteps = steps ? steps.length : 4;
+
+  const handleComplete = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setShowReset(true);
+    setIsComplete(true);
   };
-  const totalSteps = steps ? steps.length : 3;
+  const handleReset = () => {
+    setSelectedProduct({
+      gemstones: [],
+      shapes: [],
+      jewelry: [],
+    });
+    setActiveStep(-1);
+    setShowReset(false);
+    setIsComplete(false);
+  };
+
+  const determineArrowColor = () => {
+    if (activeStep === 0 && selectedProduct.gemstones.length <= 0) {
+      return "text-gray-300";
+    }
+    if (activeStep === 1 && selectedProduct.shapes.length <= 0) {
+      return "text-gray-300";
+    }
+    if (activeStep === 2 && selectedProduct.jewelry.length <= 0) {
+      return "text-gray-300";
+    }
+    return "text-gray-500";
+  };
 
   return (
     <div className="sticky top-0 z-30">
@@ -134,11 +138,37 @@ function SidBar(props) {
                 <li>
                   <div className="h-auto overflow-hidden relative">
                     <div>
-                      <img
-                        alt="content"
-                        className="object-fill object-center h-full w-full"
-                        src={selectedProduct.gemstoneImage}
-                      />
+                      {activeStep === 0 &&
+                        (selectedProduct.gemstones[0] ? (
+                          <img
+                            className="object-fill object-center h-full w-full"
+                            src={selectedProduct.gemstones[0].gemstoneImage}
+                          />
+                        ) : (
+                          <h5 className="flex relative text-center mt-0 mb-5">
+                            Please select a Gemstones
+                          </h5>
+                        ))}
+                      {activeStep === 1 &&
+                        (selectedProduct.shapes[0] ? (
+                          <img
+                            className="object-fill object-center h-full w-full"
+                            src={selectedProduct.shapes[0].gemstoneImage}
+                          />
+                        ) : (
+                          <h5 className="flex relative text-center mt-0 mb-5">
+                            Please select a shape
+                          </h5>
+                        ))}
+                      {activeStep === 2 &&
+                        (selectedProduct.jewelry[0] ? (
+                          <img
+                            className="object-fill object-center h-full w-full"
+                            src={selectedProduct.jewelry[0].jewelryImage}
+                          />
+                        ) : (
+                          <p>Please select a shape</p>
+                        ))}
                     </div>
                   </div>
                 </li>
@@ -146,46 +176,67 @@ function SidBar(props) {
             </ul>
             <div className="flex pt-11">
               <div className="relative flex items-center justify-around bottom-6 lg:bottom-14 z-40 lg:h-12 h-12 w-full gap-1 rounded-full bg-neutral-100/50 backdrop-blur-md">
-                {activeStep === totalSteps ? (
-                  <Box
-                    sx={{ display: "flex", flexDirection: "row", pt: 2 }}
-                    className="pb-3"
-                  >
-                    <Box sx={{ flex: "1 1 auto" }} />
-                    <Button onClick={handleReset}>Reset</Button>
-                  </Box>
-                ) : (
-                  <>
+                <>
+                  {activeStep === 0 ? (
                     <button
                       className="w-1/4 justify-items-center"
                       disabled={activeStep === 0}
                       onClick={handleBack}
                     >
+                      <TiArrowBackOutline className="text-gray-300" />
+                    </button>
+                  ) : (
+                    <button onClick={handleBack}>
                       <TiArrowBackOutline className="text-gray-500" />
                     </button>
-                    <button className="w-1/4 justify-items-center">
-                      <GoHeart className="text-gray-500" />
-                    </button>
-                    <button className="w-1/4 justify-items-center">
-                      <SlBag className="text-gray-500" />
-                    </button>
-                    <button
-                      className="w-1/4 justify-items-center"
-                      onClick={handleNext}
-                      disabled={
-                        (activeStep === 0 && selectedProduct.length == 0) ||
-                        (activeStep === 1 && selectedProduct.length == 1) ||
-                        (activeStep === 2 && selectedProduct.length == 2)
-                      }
-                    >
-                      {activeStep === totalSteps - 1 ? (
-                        <MdOutlineDownloadDone className=" text-green-400" />
-                      ) : (
-                        <TiArrowForwardOutline className=" text-gray-500" />
-                      )}
-                    </button>
-                  </>
-                )}
+                  )}
+
+                  {isComplete ? (
+                    <>
+                      <button className="w-1/4 justify-items-center">
+                        <GoHeart className="text-gray-500" />
+                      </button>
+                      <button className="w-1/4 justify-items-center">
+                        <SlBag className="text-gray-500" />
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button className="w-1/4 justify-items-center">
+                        <GoHeart className="text-gray-300" />
+                      </button>
+                      <button className="w-1/4 justify-items-center">
+                        <SlBag className="text-gray-300" />
+                      </button>
+                    </>
+                  )}
+
+                  <button
+                    className="w-1/4 justify-items-center"
+                    onClick={handleNext}
+                  >
+                    {!isComplete &&
+                    activeStep === totalSteps - 2 &&
+                    selectedProduct.jewelry[0] ? (
+                      <MdOutlineDownloadDone
+                        className=" text-green-400"
+                        onClick={handleComplete}
+                      />
+                    ) : (
+                      !showReset && (
+                        <TiArrowForwardOutline
+                          className={determineArrowColor()}
+                        />
+                      )
+                    )}
+                    {isComplete && showReset && (
+                      <VscDebugRestart
+                        onClick={handleReset}
+                        className="text-blue-500"
+                      />
+                    )}
+                  </button>
+                </>
               </div>
             </div>
           </div>

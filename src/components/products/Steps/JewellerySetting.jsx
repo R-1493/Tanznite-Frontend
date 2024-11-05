@@ -18,7 +18,7 @@ function JewellerySetting(props) {
       {jewelry && jewelry.length > 0 ? (
         jewelry.map((product) => (
           <div
-            key={product.gemstoneId}
+            key={product.jewelryId}
             className={`p-4 lg:w-1/3 max-w-md cursor-pointer ${
               selectedProduct && selectedProduct.id === product.jewelryId
                 ? "border-b-4 border-[#584BA5]"

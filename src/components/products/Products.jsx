@@ -21,7 +21,6 @@ function Products(props) {
     activeStep,
     skipped,
     setSkipped,
-    steps,
   } = props;
 
   const [page, setPage] = useState(1);
@@ -88,11 +87,10 @@ function Products(props) {
     return <div>Error: {error}</div>;
   }
   let filteredShapes = [];
-  // console.log(selectedProduct.l);
   const handleNextStep = () => {
-    if (activeStep === 0 && selectedProduct.length == 0) return;
-    if (activeStep === 1 && selectedProduct.length == 1) return;
-    if (activeStep === 2 && selectedProduct.length == 2) return;
+    if (activeStep === 0 && selectedProduct.gemstones.length <= 0) return;
+    if (activeStep === 1 && selectedProduct.shapes.length <= 0) return;
+    if (activeStep === 2 && selectedProduct.jewelry.length <= 0) return;
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     let newSkipped = skipped;
@@ -124,6 +122,7 @@ function Products(props) {
   };
   const selectedGemstone = selectedProduct.gemstones[0]?.gemstoneId;
   console.log(selectedGemstone);
+
   const displayStep = (step) => {
     if (step === 1) {
       filteredShapes =
@@ -212,7 +211,7 @@ function Products(props) {
               skipped={skipped}
               setSkipped={setSkipped}
               handleNext={handleNextStep}
-              filteredShapes={filteredShapes}
+              setSelectedProduct={setSelectedProduct}
             />
           </div>
           <div className="pl-3 pr-3 w-[50%] sm:w-3/4 lg:w-3/4 justify-center ml-auto mr-auto">
