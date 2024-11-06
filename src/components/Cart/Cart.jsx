@@ -100,14 +100,13 @@ const Cart = (props) => {
                       </svg>
                     </button>
                     <div>
-                      <input
+                      <p
                         type="number"
                         id="first_product"
                         className="bg-gray-50 w-14 border border-gray-100 text-gray-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-100 dark:border-gray-400 dark:placeholder-gray-800 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        value={product.quantity}
-                        readOnly
-                        required
-                      />
+                      >
+                        {product.quantity}
+                      </p>
                     </div>
                     <button
                       className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-600 bg-slate-400 border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-400 dark:text-gray-100 dark:border-gray-300 dark:hover:bg-gray-400 dark:hover:border-gray-400 dark:focus:ring-gray-400"

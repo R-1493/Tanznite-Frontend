@@ -7,9 +7,12 @@ import ShopPage from "./pages/ShopPage";
 import Cart from "./pages/CartPage";
 import WishList from "./pages/WishListPage";
 import LocalStorage from "./components/LocalStorage/LocalStorage";
+import UserRegister from "./components/User/UserRegister";
+import UserLogin from "./components/User/UserLogin"
+
 function App() {
   const steps = ["Gemstone Category", "Gemstone Shape", "Jeweller Setting"];
-
+  
   const [currentStep, setCurrentStep] = useState(1);
   const [isOpen1, setIsOpen1] = useState(false);
   const [isOpen2, setIsOpen2] = useState(false);
@@ -74,6 +77,12 @@ function App() {
               setStoredWishList={setStoredWishList}
             />
           ),
+        },
+        {
+          path: "/Register",
+          element: <UserRegister />,
+        },{path:"/Login",
+          element:<UserLogin />
         },
       ],
     },

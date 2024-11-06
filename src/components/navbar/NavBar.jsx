@@ -42,9 +42,9 @@ export default function NavBar() {
 
         <div className="gap-6 justify-between hidden md:flex group">
           <img src={img} className="h-5 w-5" />
-          <p className="px-3 text-sm  transition-opacity" href="/SignUp">
+          <a className="px-3 text-sm  transition-opacity" href="/Register">
             SignUp
-          </p>
+          </a>
         </div>
 
         <div className="flex inset-0 items-start z-20 justify-end mr-3 md:hidden">
