@@ -14,7 +14,9 @@ const NavItem = ({ icon, text }) => (
   </div>
 );
 
-export default function NavBar() {
+export default function NavBar(props) {
+  const { userData, isAuthenticated } = props;
+  console.log("navbar userData", userData);
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleNavbar = () => {
@@ -31,9 +33,6 @@ export default function NavBar() {
           <a href="/WishList">
             <GoHeart className="h-4 w-4 hidden hover:text-indigo-700 md:flex" />
           </a>
-          {/* <a href="/">
-            <LiaSearchSolid className="h-4 w-4 hover:text-indigo-700 hidden md:flex" />
-          </a> */}
         </div>
 
         <h1 className="text-center flex-1 tracking-[5px] font-light">
@@ -41,10 +40,23 @@ export default function NavBar() {
         </h1>
 
         <div className="gap-6 justify-between hidden md:flex group">
-          <img src={img} className="h-5 w-5" />
-          <a className="px-3 text-sm  transition-opacity" href="/Register">
-            SignUp
-          </a>
+          {isAuthenticated ? (
+            <a href="/Profile">
+              <span className="rounded-full text-xs font-bold mb-4 z-20 bg-purple-500 w-8 h-8 p-2 flex justify-center items-center border">
+                {userData?.name[0].charAt(0).toUpperCase()}
+                {userData?.name[1].charAt(0).toUpperCase()}
+              </span>
+            </a>
+          ) : (
+            <>
+              <a className="px-3 text-sm transition-opacity" href="/Login">
+                Login
+              </a>
+              <a className="px-3 text-sm transition-opacity" href="/Register">
+                SignUp
+              </a>
+            </>
+          )}
         </div>
 
         <div className="flex inset-0 items-start z-20 justify-end mr-3 md:hidden">
@@ -53,31 +65,37 @@ export default function NavBar() {
 
         <nav className="flex">
           {isOpen && (
-            <div className="fixed inset-y-0 right-0 w-60 h-80 px-6 z-10 py-6 sm:ring-1justify-center bg-gray-100 bg-opacity-40 backdrop-blur-md md:hidden">
-              <div className="fixed top-24 flex flex-col space-y-4  text-gray-600">
-                {/* <a>
+            <div className="fixed inset-y-0 right-0 w-60 h-80 px-6 z-10 py-6 sm:ring-1 justify-center bg-gray-100 bg-opacity-40 backdrop-blur-md md:hidden">
+              {isAuthenticated ? (
+                <div className="flex flex-col space-y-4">
+                  <a className="flex items-center" href="/Profile">
+                    <span className="rounded-full text-xs font-bold z-20 bg-purple-500 w-8 h-8 p-2 flex justify-center items-center text-center border">
+                      {userData?.name[0].charAt(0).toUpperCase()}
+                      {userData?.name[1].charAt(0).toUpperCase()}
+                    </span>
+                    <span className="pl-2 text-sm">Profile</span>
+                  </a>
                   <NavItem
-                    icon={<LiaSearchSolid className="h-4 w-4" alt="#" />}
-                    text="Search"
-                  />
-                </a> */}
-                <a href="/WishList">
-                  <NavItem
-                    icon={<GoHeart className="h-4 w-4" alt="#" />}
+                    icon={<GoHeart className="h-4 w-4" />}
                     text="Favorites"
                   />
-                </a>
-                <a>
-                  <NavItem
-                    icon={<img src={img} className="h-5 w-5" />}
-                    text="Profile"
-                  />
-                </a>
-
-                <a className="flex items-center">
-                  <p className="px-5 text-sm">Sign up</p>
-                </a>
-              </div>
+                </div>
+              ) : (
+                <div className="fixed top-24 flex flex-col space-y-4 text-gray-600">
+                  <a href="/WishList">
+                    <NavItem
+                      icon={<GoHeart className="h-4 w-4" />}
+                      text="Favorites"
+                    />
+                  </a>
+                  <a className="flex items-center" href="/Register">
+                    <p className="px-5 text-sm">Sign up</p>
+                  </a>{" "}
+                  <a className="flex items-center" href="/Login">
+                    <p className="px-5 text-sm">Login</p>
+                  </a>
+                </div>
+              )}
             </div>
           )}
         </nav>
@@ -100,12 +118,14 @@ export default function NavBar() {
           >
             Shop
           </a>
-          <a
-            className="font-semibold duration-150 ease-in-out hover:text-indigo-700"
-            href="/manger"
-          >
-            Manger
-          </a>
+          {isAuthenticated && userData?.role === "Admin" && (
+            <a
+              className="font-semibold duration-150 ease-in-out hover:text-indigo-700"
+              href="/Dashboard"
+            >
+              Dashboard
+            </a>
+          )}
         </nav>
       </header>
       <div className="fixed flex m-10 z-40 justify-center items-center rounded-full bg-neutral-300 bottom-10 h-14 w-6">

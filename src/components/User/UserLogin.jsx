@@ -6,7 +6,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
-import LocalStorage from "../LocalStorage/LocalStorage";
+import { useNavigate } from "react-router-dom";
 
 function UserLogin(prop) {
   const { getUserData } = prop;
@@ -26,14 +26,15 @@ function UserLogin(prop) {
     event.preventDefault();
   };
 
-  function onChangeHandlerEmailLogIn(event) {
-    setUserLogIn({ ...userLogIn, email: event.target.value });
+  function onChangeHandlerLogIn(event) {
+    setUserLogIn({ ...userLogIn, [event.target.id]: event.target.value });
   }
 
-  function onChangeHandlerPasswordLogIn(event) {
-    setUserLogIn({ ...userLogIn, password: event.target.value });
-  }
+  // function onChangeHandlerPasswordLogIn(event) {
+  //   setUserLogIn({ ...userLogIn, password: event.target.value });
+  // }
   console.log(userLogIn);
+  const navigate = useNavigate();
 
   function LoginUser() {
     const userUrlLogIn = "http://localhost:5125/api/v1/User/LogIn";
@@ -42,28 +43,28 @@ function UserLogin(prop) {
       .then((res) => {
         console.log(res, "response from log in");
         if (res.status === 200) {
-          LocalStorage.setItem("token", res.data);
+          localStorage.setItem("token", res.data);
         }
-        return getUserData();
       })
-      .then(() => navigate("/profile"))
+      .then(() => getUserData())
+      .then(() => navigate("/Profile"))
       .catch((error) => {
         console.log(error);
-        // if (error.response) {
-        //   if (error.response.status === 401) {
-        //     alert(error.response.data.message);
-        //     return;
-        //   }
-        //   if (error.response.status === 400) {
-        //     const errors = error.response.data.errors;
-        //     if (errors.Email) {
-        //       alert(errors.Email[0]);
-        //     }
-        //     if (errors.Password) {
-        //       alert(errors.Password[0]);
-        //     }
-        //   }
-        // } 
+        if (error.response) {
+          if (error.response.status === 401) {
+            alert(error.response.data.message);
+            return;
+          }
+          if (error.response.status === 400) {
+            const errors = error.response.data.errors;
+            if (errors.Email) {
+              alert(errors.Email[0]);
+            }
+            if (errors.Password) {
+              alert(errors.Password[0]);
+            }
+          }
+        }
       });
   }
   return (
@@ -97,7 +98,7 @@ function UserLogin(prop) {
                         type="email"
                         placeholder="Enter email to get started"
                         className="block w-full  pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600"
-                        onChange={onChangeHandlerEmailLogIn}
+                        onChange={onChangeHandlerLogIn}
                         slotProps={{
                           input: {
                             startAdornment: (
@@ -147,8 +148,8 @@ function UserLogin(prop) {
                       <OutlinedInput
                         id="password"
                         placeholder="Enter your password"
-                        className="block w-full  pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600"
-                        onClick={onChangeHandlerPasswordLogIn}
+                        className="block w-full pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600"
+                        onChange={onChangeHandlerLogIn}
                         type={showPassword ? "text" : "password"}
                         startAdornment={
                           <InputAdornment position="start">
