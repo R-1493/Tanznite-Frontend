@@ -8,21 +8,19 @@ import {
   FormControl,
   Select,
 } from "@mui/material";
-
-function ProductItem(props) {
-  const { product, fetchData, categoryList } = props;
+function ShapeItem(props) {
+  const { product, fetchData, gemstoneList } = props;
   const [isOpen, setIsOpen] = useState(false);
   const [productInfo, setProductInfo] = useState({
-    gemstoneType: "",
-    gemstoneColor: "",
-    GemstoneImage: "",
-    gemstoneClarity: "",
-    gemstonePrice: null,
-    gemstoneDescription: "",
-    categoryId: "",
+    shapeName: "",
+    gemstoneImage: "",
+    gemstoneShapPrice: null,
+    gemstoneShapWeight: "",
+    gemstoneShapeInfo: "",
+    gemstoneId: "",
   });
-  function onChangeHandlerGemstone(event) {
-    console.log(event, "event");
+
+  function onChangeHandlerGemstoneShape(event) {
     setProductInfo({
       ...productInfo,
       [event.target.name]: event.target.value,
@@ -30,13 +28,15 @@ function ProductItem(props) {
   }
   function updateProduct() {
     const token = localStorage.getItem("token");
-    const url = `http://localhost:5125/api/v1/Gemstone/${product.gemstoneId}`;
+    const url = `http://localhost:5125/api/v1/GemstoneShape/${product.gemstoneShapeId}`;
+
     const updatedData = {};
     Object.keys(productInfo).forEach((key) => {
-      if (productInfo[key]) {
+      if (productInfo[key] !== "") {
         updatedData[key] = productInfo[key];
       }
     });
+
     axios
       .patch(url, updatedData, {
         headers: {
@@ -52,9 +52,10 @@ function ProductItem(props) {
       })
       .catch((error) => console.log(error));
   }
+
   function deleteProductById() {
     const token = localStorage.getItem("token");
-    const url = `http://localhost:5125/api/v1/Gemstone/${product.gemstoneId}`;
+    const url = `http://localhost:5125/api/v1/GemstoneShape/${product.gemstoneShapeId}`;
     axios
       .delete(url, {
         headers: {
@@ -82,100 +83,89 @@ function ProductItem(props) {
             className="bg-gray-100 p-6 rounded-lg shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-lg font-semibold">Create new gemstone</h2>
+            <h2 className="text-lg font-semibold">Update Gemstone Shape</h2>
 
             <div className="py-2 sm:py-3 grid grid-cols-2 gap-4">
               <label className="text-base font-medium text-gray-900">
-                Gemstone Type
-              </label>
-              <label className="text-base font-medium text-gray-900">
-                Gemstone Color
+                Gemstone Shape Name
               </label>
               <TextField
-                id="gemstoneType"
-                name="gemstoneType"
+                id="shapeName"
+                name="shapeName"
                 type="text"
-                placeholder="Enter the Type"
+                placeholder="Enter the shape name"
                 className="block w-full mt-1 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600"
-                onChange={onChangeHandlerGemstone}
+                onChange={onChangeHandlerGemstoneShape}
               />
+              <label className="text-base font-medium text-gray-900">
+                Gemstone Shape Weight
+              </label>
               <TextField
-                id="gemstoneColor"
-                name="gemstoneColor"
+                id="gemstoneShapWeight"
+                name="gemstoneShapWeight"
                 type="text"
-                placeholder="Enter the color"
+                placeholder="Enter the shape weight"
                 className="block w-full mt-1 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600"
-                onChange={onChangeHandlerGemstone}
+                onChange={onChangeHandlerGemstoneShape}
               />
             </div>
 
             <div className="py-2 sm:py-3 grid grid-cols-2 gap-4">
               <label className="text-base font-medium text-gray-900">
-                Gemstone Image URL
-              </label>
-              <label className="text-base font-medium text-gray-900">
-                Gemstone Price
+                Gemstone Shape Image URL
               </label>
               <TextField
-                id="GemstoneImage"
-                name="GemstoneImage"
-                type="URL"
+                id="gemstoneImage"
+                name="gemstoneImage"
+                type="url"
                 placeholder="Enter a URL"
                 className="block w-full mt-1 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600"
-                onChange={onChangeHandlerGemstone}
+                onChange={onChangeHandlerGemstoneShape}
               />
+              <label className="text-base font-medium text-gray-900">
+                Gemstone Shape Price
+              </label>
               <TextField
-                id="gemstonePrice"
-                name="gemstonePrice"
+                id="gemstoneShapPrice"
+                name="gemstoneShapPrice"
                 type="number"
-                placeholder="Enter the price"
+                placeholder="Enter the Shape Price"
                 className="block w-full mt-1 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600"
-                onChange={onChangeHandlerGemstone}
+                onChange={onChangeHandlerGemstoneShape}
               />
             </div>
-            <div className="py-2 sm:py-3 grid grid-cols-1 ">
-              <label className="text-base font-medium text-gray-900">
-                Gemstone Description
-              </label>
 
+            <div className="py-2 sm:py-3 grid grid-cols-1">
+              <label className="text-base font-medium text-gray-900">
+                Gemstone Shape Description
+              </label>
               <TextField
-                id="gemstoneDescription"
-                name="gemstoneDescription"
+                id="gemstoneShapeInfo"
+                name="gemstoneShapeInfo"
                 type="text"
                 placeholder="Enter a Description"
                 className="block w-full mt-1 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600"
-                onChange={onChangeHandlerGemstone}
+                onChange={onChangeHandlerGemstoneShape}
               />
             </div>
 
-            <div className="py-2 sm:py-3 grid grid-cols-2 gap-4">
-              <label className="text-base font-medium text-gray-900">
-                Gemstone Clarity
-              </label>
-              <label>Gemstone Category</label>
-              <TextField
-                id="gemstoneClarity"
-                name="gemstoneClarity"
-                type="text"
-                placeholder="Enter clarity"
-                className="block w-full mt-1 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600"
-                onChange={onChangeHandlerGemstone}
-              />{" "}
+            <div className="py-2 sm:py-3 grid grid-cols-1 gap-4">
+              <label>Gemstone</label>
               <FormControl fullWidth>
-                <InputLabel id="categoryId">Category id</InputLabel>
+                <InputLabel id="gemstoneId">Gemstone ID</InputLabel>
                 <Select
-                  labelId="categoryId"
-                  name="categoryId"
-                  value={productInfo.categoryId}
-                  label="Category Id"
-                  onChange={onChangeHandlerGemstone}
+                  labelId="gemstoneId"
+                  name="gemstoneId"
+                  value={productInfo.gemstoneId}
+                  label="Gemstone ID"
+                  onChange={onChangeHandlerGemstoneShape}
                 >
-                  {categoryList.map((category) => (
+                  {gemstoneList.gemstones.map((gemstone) => (
                     <MenuItem
-                      key={category.categoryId}
-                      value={category.categoryId}
+                      key={gemstone.gemstoneId}
+                      value={gemstone.gemstoneId}
                     >
-                      {category.categoryName}
+                      {gemstone.gemstoneType}
                     </MenuItem>
                   ))}
                 </Select>
@@ -197,17 +187,16 @@ function ProductItem(props) {
           </div>
         </div>
       )}
-
       <div className="p-3 flex flex-col md:flex-row  items-center justify-between border-t cursor-pointer  hover:bg-gray-200">
         <div className="flex items-center w-full md:w-auto">
           <img
-            alt={product.gemstoneType}
+            alt={product.shapeName}
             src={product.gemstoneImage}
             className="w-16 h-16 md:w-24 md:h-24 object-cover border border-gray-300 rounded-md"
           />
           <div className="ml-4 flex flex-col">
             <div className="leading-snug text-sm text-gray-900 font-bold">
-              {product?.gemstoneType}
+              {product?.shapeName}
             </div>
           </div>
         </div>
@@ -216,25 +205,17 @@ function ProductItem(props) {
             <p className="inline md:hidden mr-1">Color: </p>
             <span className="font-medium md:font-bold">
               {" "}
-              {product?.gemstoneColor}
+              {product?.gemstoneShapWeight}mm
             </span>
           </div>
         </div>
         <div className="ml-2 flex flex-col w-full md:w-auto pb-3">
           <div className="leading-snug text-sm text-gray-900 font-bold flex items-center">
-            <p className="inline md:hidden mr-1">Clarity: </p>
-            <span className="font-medium md:font-bold">
-              {product?.gemstoneClarity}
-            </span>
-          </div>
-        </div>{" "}
-        <div className="ml-2 flex flex-col w-full md:w-auto pb-3">
-          <div className="leading-snug text-sm text-gray-900 font-bold flex items-center">
             <p className="inline md:hidden mr-1">Description: </p>
             <span className="font-medium md:font-bold">
-              {product?.gemstoneDescription.length > 20
-                ? `${product.gemstoneDescription.slice(0, 20)}...`
-                : product.gemstoneDescription}
+              {product?.gemstoneShapeInfo.length > 20
+                ? `${product.gemstoneShapeInfo.slice(0, 20)}...`
+                : product.gemstoneShapeInfo}
             </span>
           </div>
         </div>
@@ -242,7 +223,7 @@ function ProductItem(props) {
           <div className="leading-snug text-sm text-gray-900 font-bold ">
             <p className="inline md:hidden mr-1">Price :</p>{" "}
             <span className="font-medium md:font-bold">
-              ${product?.gemstonePrice}
+              ${product?.gemstoneShapPrice}
             </span>
           </div>
         </div>
@@ -266,4 +247,4 @@ function ProductItem(props) {
   );
 }
 
-export default ProductItem;
+export default ShapeItem;

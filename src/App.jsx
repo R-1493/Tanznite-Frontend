@@ -12,11 +12,12 @@ import UserLogin from "./components/User/UserLogin";
 import UserProfile from "./components/User/UserProfile";
 import axios from "axios";
 import ProtectedRoute from "./components/User/ProtectedRoute";
-import DashBoard from "./components/Dashboard/DashBoard";
 import UserDashBoard from "./components/Dashboard/UserDashBoard";
 import LayoutDashBoard from "./components/Dashboard/LayoutDashboard";
 import ProductDashBoard from "./components/Dashboard/ProductDashBoard";
-import OrderDashBoard from "./components/Dashboard/OrderDashBoard"
+import OrderDashBoard from "./components/Dashboard/OrderDashBoard";
+import ShapeDashBoard from "./components/Dashboard/ShapeDashBoard";
+import JewelryDashboard from "./components/Dashboard/JewelryDashboard";
 
 function App() {
   const steps = ["Gemstone Category", "Gemstone Shape", "Jeweller Setting"];
@@ -24,11 +25,13 @@ function App() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isOpen1, setIsOpen1] = useState(false);
   const [isOpen2, setIsOpen2] = useState(false);
+
   const [selectedProduct, setSelectedProduct] = useState({
     gemstones: [],
     shapes: [],
     jewelry: [],
   });
+
   const [selectedBy, setSelectedBy] = useState([]);
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set());
@@ -167,14 +170,26 @@ function App() {
               ),
             },
             {
-              path: "/Dashboard",
+              path: "/Shape-Dashboard",
               element: (
                 <ProtectedRoute
                   isUserDataLoading={isUserDataLoading}
                   isAuthenticated={isAuthenticated}
                   shouldCheckAdmin={true}
                   userData={userData}
-                  element={<DashBoard />}
+                  element={<ShapeDashBoard />}
+                />
+              ),
+            },
+            {
+              path: "/jewelry-Dashboard",
+              element: (
+                <ProtectedRoute
+                  isUserDataLoading={isUserDataLoading}
+                  isAuthenticated={isAuthenticated}
+                  shouldCheckAdmin={true}
+                  userData={userData}
+                  element={<JewelryDashboard />}
                 />
               ),
             },

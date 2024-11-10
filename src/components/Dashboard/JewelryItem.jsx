@@ -1,5 +1,5 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Button,
   TextField,
@@ -8,20 +8,19 @@ import {
   FormControl,
   Select,
 } from "@mui/material";
-
-function ProductItem(props) {
-  const { product, fetchData, categoryList } = props;
+function JewelryItem(props) {
+  const { product, fetchData } = props;
   const [isOpen, setIsOpen] = useState(false);
+
   const [productInfo, setProductInfo] = useState({
-    gemstoneType: "",
-    gemstoneColor: "",
-    GemstoneImage: "",
-    gemstoneClarity: "",
-    gemstonePrice: null,
-    gemstoneDescription: "",
-    categoryId: "",
+    jewelryName: "",
+    jewelryType: "",
+    jewelryPrice: null,
+    jewelryImage: "",
+    description: "",
   });
-  function onChangeHandlerGemstone(event) {
+
+  function onChangeHandlerJewelry(event) {
     console.log(event, "event");
     setProductInfo({
       ...productInfo,
@@ -30,7 +29,7 @@ function ProductItem(props) {
   }
   function updateProduct() {
     const token = localStorage.getItem("token");
-    const url = `http://localhost:5125/api/v1/Gemstone/${product.gemstoneId}`;
+    const url = `http://localhost:5125/api/v1/Jewelry/${product.jewelryId}`;
     const updatedData = {};
     Object.keys(productInfo).forEach((key) => {
       if (productInfo[key]) {
@@ -54,7 +53,7 @@ function ProductItem(props) {
   }
   function deleteProductById() {
     const token = localStorage.getItem("token");
-    const url = `http://localhost:5125/api/v1/Gemstone/${product.gemstoneId}`;
+    const url = `http://localhost:5125/api/v1/Jewelry/${product.jewelryId}`;
     axios
       .delete(url, {
         headers: {
@@ -82,104 +81,70 @@ function ProductItem(props) {
             className="bg-gray-100 p-6 rounded-lg shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-lg font-semibold">Create new gemstone</h2>
+            <h2 className="text-lg font-semibold">Create new Jewelry</h2>
 
             <div className="py-2 sm:py-3 grid grid-cols-2 gap-4">
               <label className="text-base font-medium text-gray-900">
-                Gemstone Type
+                Jewelry Name
               </label>
               <label className="text-base font-medium text-gray-900">
-                Gemstone Color
+                Jewelry Type
               </label>
               <TextField
-                id="gemstoneType"
-                name="gemstoneType"
+                id="jewelryName"
+                name="jewelryName"
                 type="text"
-                placeholder="Enter the Type"
+                placeholder="Enter the jewelry name"
                 className="block w-full mt-1 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600"
-                onChange={onChangeHandlerGemstone}
+                onChange={onChangeHandlerJewelry}
               />
               <TextField
-                id="gemstoneColor"
-                name="gemstoneColor"
+                id="jewelryType"
+                name="jewelryType"
                 type="text"
-                placeholder="Enter the color"
+                placeholder="Enter the jewelry type"
                 className="block w-full mt-1 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600"
-                onChange={onChangeHandlerGemstone}
+                onChange={onChangeHandlerJewelry}
               />
             </div>
 
             <div className="py-2 sm:py-3 grid grid-cols-2 gap-4">
               <label className="text-base font-medium text-gray-900">
-                Gemstone Image URL
+                Jewelry Image URL
               </label>
               <label className="text-base font-medium text-gray-900">
-                Gemstone Price
+                Jewelry Price
               </label>
               <TextField
-                id="GemstoneImage"
-                name="GemstoneImage"
+                id="jewelryImage"
+                name="jewelryImage"
                 type="URL"
                 placeholder="Enter a URL"
                 className="block w-full mt-1 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600"
-                onChange={onChangeHandlerGemstone}
+                onChange={onChangeHandlerJewelry}
               />
               <TextField
-                id="gemstonePrice"
-                name="gemstonePrice"
+                id="jewelryPrice"
+                name="jewelryPrice"
                 type="number"
                 placeholder="Enter the price"
                 className="block w-full mt-1 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600"
-                onChange={onChangeHandlerGemstone}
+                onChange={onChangeHandlerJewelry}
               />
             </div>
             <div className="py-2 sm:py-3 grid grid-cols-1 ">
               <label className="text-base font-medium text-gray-900">
-                Gemstone Description
+                Jewelry Description
               </label>
 
               <TextField
-                id="gemstoneDescription"
-                name="gemstoneDescription"
+                id="description"
+                name="description"
                 type="text"
                 placeholder="Enter a Description"
                 className="block w-full mt-1 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600"
-                onChange={onChangeHandlerGemstone}
+                onChange={onChangeHandlerJewelry}
               />
-            </div>
-
-            <div className="py-2 sm:py-3 grid grid-cols-2 gap-4">
-              <label className="text-base font-medium text-gray-900">
-                Gemstone Clarity
-              </label>
-              <label>Gemstone Category</label>
-              <TextField
-                id="gemstoneClarity"
-                name="gemstoneClarity"
-                type="text"
-                placeholder="Enter clarity"
-                className="block w-full mt-1 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600"
-                onChange={onChangeHandlerGemstone}
-              />{" "}
-              <FormControl fullWidth>
-                <InputLabel id="categoryId">Category id</InputLabel>
-                <Select
-                  labelId="categoryId"
-                  name="categoryId"
-                  value={productInfo.categoryId}
-                  label="Category Id"
-                  onChange={onChangeHandlerGemstone}
-                >
-                  {categoryList.map((category) => (
-                    <MenuItem
-                      key={category.categoryId}
-                      value={category.categoryId}
-                    >
-                      {category.categoryName}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
             </div>
 
             <button
@@ -201,30 +166,21 @@ function ProductItem(props) {
       <div className="p-3 flex flex-col md:flex-row  items-center justify-between border-t cursor-pointer  hover:bg-gray-200">
         <div className="flex items-center w-full md:w-auto">
           <img
-            alt={product.gemstoneType}
-            src={product.gemstoneImage}
+            alt={product.jewelryName}
+            src={product.jewelryImage}
             className="w-16 h-16 md:w-24 md:h-24 object-cover border border-gray-300 rounded-md"
           />
           <div className="ml-4 flex flex-col">
             <div className="leading-snug text-sm text-gray-900 font-bold">
-              {product?.gemstoneType}
+              {product?.jewelryName}
             </div>
-          </div>
-        </div>
-        <div className="ml-2 flex flex-col w-full md:w-auto py-3">
-          <div className="leading-snug text-sm text-gray-900 font-bold flex items-center">
-            <p className="inline md:hidden mr-1">Color: </p>
-            <span className="font-medium md:font-bold">
-              {" "}
-              {product?.gemstoneColor}
-            </span>
           </div>
         </div>
         <div className="ml-2 flex flex-col w-full md:w-auto pb-3">
           <div className="leading-snug text-sm text-gray-900 font-bold flex items-center">
-            <p className="inline md:hidden mr-1">Clarity: </p>
+            <p className="inline md:hidden mr-1">Type: </p>
             <span className="font-medium md:font-bold">
-              {product?.gemstoneClarity}
+              {product?.jewelryType}
             </span>
           </div>
         </div>{" "}
@@ -232,9 +188,9 @@ function ProductItem(props) {
           <div className="leading-snug text-sm text-gray-900 font-bold flex items-center">
             <p className="inline md:hidden mr-1">Description: </p>
             <span className="font-medium md:font-bold">
-              {product?.gemstoneDescription.length > 20
-                ? `${product.gemstoneDescription.slice(0, 20)}...`
-                : product.gemstoneDescription}
+              {product?.description.length > 20
+                ? `${product.description.slice(0, 20)}...`
+                : product.description}
             </span>
           </div>
         </div>
@@ -242,7 +198,7 @@ function ProductItem(props) {
           <div className="leading-snug text-sm text-gray-900 font-bold ">
             <p className="inline md:hidden mr-1">Price :</p>{" "}
             <span className="font-medium md:font-bold">
-              ${product?.gemstonePrice}
+              ${product?.jewelryPrice}
             </span>
           </div>
         </div>
@@ -266,4 +222,4 @@ function ProductItem(props) {
   );
 }
 
-export default ProductItem;
+export default JewelryItem;

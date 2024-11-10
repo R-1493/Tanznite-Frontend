@@ -41,15 +41,16 @@ function UserProfile(props) {
   function UpdateUserProfile() {
     const token = localStorage.getItem("token");
     console.log(token);
-    const updateData = {
-      ...(userInfo.name && { name: userInfo.name }),
-      ...(userInfo.phoneNumber && { phoneNumber: userInfo.phoneNumber }),
-      ...(userInfo.email && { email: userInfo.email }),
-      ...(userInfo.password && { password: userInfo.password }),
-    };
+
+    const updatedData = {};
+    Object.keys(userInfo).forEach((key) => {
+      if (userInfo[key]) {
+        updatedData[key] = userInfo[key];
+      }
+    });
 
     axios
-      .patch("http://localhost:5125/api/v1/User/UpdateProfile", updateData, {
+      .patch("http://localhost:5125/api/v1/User/UpdateProfile", updatedData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

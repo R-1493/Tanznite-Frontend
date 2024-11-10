@@ -1,30 +1,14 @@
 import React from "react";
-import { BsCartCheck } from "react-icons/bs";
 import { AiOutlineProduct } from "react-icons/ai";
+import { BsGem } from "react-icons/bs";
+import { PiShapes } from "react-icons/pi";
+import { GiChaingun } from "react-icons/gi";
+import { RiShining2Line } from "react-icons/ri";
+
 function SidBar(props) {
   return (
     <aside className="flex flex-col items-center w-16 h-screen py-8 overflow-y-auto bg-white border-r rtl:border-l rtl:border-r-0">
       <nav className="flex flex-col flex-1 space-y-6">
-        <a
-          href="/Dashboard"
-          className="p-1.5 text-gray-700 focus:outline-none transition-colors duration-200 rounded-lg hover:bg-gray-100"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
-            />
-          </svg>
-        </a>
-
         <a
           href="/User-Dashboard"
           className="p-1.5 text-gray-700 focus:outline-none transition-colors duration-200 rounded-lg hover:bg-gray-100"
@@ -44,19 +28,29 @@ function SidBar(props) {
             />
           </svg>
         </a>
-
         <a
           href="/Order-Dashboard"
           className="p-1.5 text-gray-700 focus:outline-none transition-colors duration-200 rounded-lg hover:bg-gray-100"
         >
-          <BsCartCheck className="h-6 w-6" />
+          <AiOutlineProduct className="h-7 w-7" />{" "}
         </a>
-
         <a
           href="/Product-Dashboard"
           className="p-1.5 text-gray-700 focus:outline-none transition-colors duration-200 rounded-lg hover:bg-gray-100"
         >
-          <AiOutlineProduct className="h-7 w-7" />
+          <BsGem className="h-6 w-6" />
+        </a>
+        <a
+          href="/Shape-Dashboard"
+          className="p-1.5 text-gray-700 focus:outline-none transition-colors duration-200 rounded-lg hover:bg-gray-100"
+        >
+          <PiShapes className="h-7 w-7" />
+        </a>{" "}
+        <a
+          href="/Jewelry-Dashboard"
+          className="p-1.5 text-gray-700 focus:outline-none transition-colors duration-200 rounded-lg hover:bg-gray-100"
+        >
+          <RiShining2Line className="h-7 w-7" />
         </a>
       </nav>
     </aside>

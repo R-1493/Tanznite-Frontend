@@ -3,14 +3,12 @@ import chooseGemstone from "../../images/Icon/gem-stone-blue.svg";
 import axios from "axios";
 import {
   Button,
-  Popover,
   TextField,
   InputLabel,
   MenuItem,
   FormControl,
   Select,
 } from "@mui/material";
-import InputAdornment from "@mui/material/InputAdornment";
 
 import ProductItem from "./ProductItem";
 
@@ -22,7 +20,7 @@ function ProductDashBoard(props) {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const [isOpen1, setIsOpen1] = useState(false);
   const [isOpen2, setIsOpen2] = useState(false);
   const [categoryList, setCategoryList] = useState([]);
@@ -40,9 +38,6 @@ function ProductDashBoard(props) {
   const [CategoryInfo, setCategoryInfo] = useState({
     categoryName: "",
   });
-
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
 
   function fetchData() {
     let url =
@@ -108,13 +103,13 @@ function ProductDashBoard(props) {
         console.log(res);
         if (res.status === 200) {
           alert("Product is created successfully ");
-          setIsOpen2(false);
           fetchData();
+          setIsOpen1(false);
         }
       })
       .catch((error) => {
         console.log(error);
-        setIsOpen2(false);
+        setIsOpen1(false);
       });
   }
   console.log(productInfo);
@@ -141,8 +136,8 @@ function ProductDashBoard(props) {
       .then((res) => {
         if (res.status === 200) {
           alert("Category is created successfully");
-          setIsOpen2(false);
           fetchData();
+          setIsOpen2(false);
         }
       })
       .catch((error) => {
@@ -162,13 +157,15 @@ function ProductDashBoard(props) {
   }
   return (
     <div>
-      <div class="flex items-center justify-between mb-4">
-        <span class="text-lg font-bold text-gray-700 ">
+      <div className="flex items-center justify-between mb-4">
+        <span className="text-lg font-bold text-gray-700 ">
           <h1> Gemstone DashBoard </h1>
+          <p className="text-sm font-thin">
+            Gemstone total:{productResponse.totalCount}
+          </p>
         </span>
         <div className="flex gap-6">
           <Button
-            aria-describedby={id}
             variant="outlined"
             color="gray"
             onClick={() => setIsOpen1(true)}
@@ -182,7 +179,6 @@ function ProductDashBoard(props) {
             />
           </Button>
           <Button
-            aria-describedby={id}
             variant="outlined"
             color="gray"
             onClick={() => setIsOpen2(true)}
@@ -366,6 +362,7 @@ function ProductDashBoard(props) {
             <ProductItem
               key={product.gemstoneId}
               product={product}
+              categoryList={categoryList}
               fetchData={fetchData}
             />
           ))

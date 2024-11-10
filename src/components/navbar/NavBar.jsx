@@ -121,7 +121,7 @@ export default function NavBar(props) {
           {isAuthenticated && userData?.role === "Admin" && (
             <a
               className="font-semibold duration-150 ease-in-out hover:text-indigo-700"
-              href="/Dashboard"
+              href="/User-Dashboard"
             >
               Dashboard
             </a>
