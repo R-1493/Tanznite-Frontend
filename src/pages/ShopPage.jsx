@@ -24,6 +24,12 @@ function ShopPage(props) {
     setStoredWishList,
     storedCart,
     setStoredCart,
+    setUserInput,
+    userInput,
+    minPrice,
+    setMinPrice,
+    maxPrice,
+    setMaxPrice,
   } = props;
   return (
     <>
@@ -55,6 +61,12 @@ function ShopPage(props) {
           setStoredWishList={setStoredWishList}
           storedCart={storedCart}
           setStoredCart={setStoredCart}
+          userInput={userInput}
+          setUserInput={setUserInput}
+          minPrice={minPrice}
+          setMinPrice={setMinPrice}
+          maxPrice={maxPrice}
+          setMaxPrice={setMaxPrice}
         />
       </div>
     </>

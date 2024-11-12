@@ -6,6 +6,7 @@ import { IoIosArrowRoundDown } from "react-icons/io";
 import { RiShoppingBag2Line as SlBag } from "react-icons/ri";
 import { FiSearch as LiaSearchSolid } from "react-icons/fi";
 import { GoHeart } from "react-icons/go";
+import Badge from "@mui/material/Badge";
 
 const NavItem = ({ icon, text }) => (
   <div style={{ display: "flex", alignItems: "center" }}>
@@ -15,9 +16,11 @@ const NavItem = ({ icon, text }) => (
 );
 
 export default function NavBar(props) {
-  const { userData, isAuthenticated } = props;
+  const { userData, isAuthenticated, storedWishList, storedCart } = props;
   console.log("navbar userData", userData);
   const [isOpen, setIsOpen] = useState(false);
+  const WishListLength = storedWishList.length;
+  const CartLength = storedCart.length;
 
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
@@ -27,11 +30,39 @@ export default function NavBar(props) {
     <>
       <header className="pg-[FDFDFE] flex mx-auto py-5 sm:px-10 w-full item-center justify-between ">
         <div className="flex gap-10 justify-between text-gray-600">
-          <a href="/Cart">
-            <SlBag className="h-4 w-4 ml-2 hover:text-indigo-700 md:flex" />{" "}
+          <a href="/Cart" className="md:flex">
+            {" "}
+            <Badge
+              badgeContent={CartLength}
+              color="secondary"
+              sx={{
+                "& .MuiBadge-badge": {
+                  backgroundColor: "#9333EA",
+                  fontSize: "0.7rem",
+                  minWidth: "18px",
+                  height: "18px",
+                },
+              }}
+            >
+              <SlBag className="h-4 w-4 ml-2 hover:text-indigo-700 " />{" "}
+            </Badge>
           </a>
-          <a href="/WishList">
-            <GoHeart className="h-4 w-4 hidden hover:text-indigo-700 md:flex" />
+
+          <a href="/WishList" className="hidden md:flex">
+            <Badge
+              badgeContent={WishListLength}
+              color="secondary"
+              sx={{
+                "& .MuiBadge-badge": {
+                  backgroundColor: "#9333EA",
+                  fontSize: "0.7rem",
+                  minWidth: "18px",
+                  height: "18px",
+                },
+              }}
+            >
+              <GoHeart className="h-4 w-4 hover:text-indigo-700  " />
+            </Badge>
           </a>
         </div>
 
@@ -73,21 +104,49 @@ export default function NavBar(props) {
                       {userData?.name[0].charAt(0).toUpperCase()}
                       {userData?.name[1].charAt(0).toUpperCase()}
                     </span>
-                    <span className="pl-2 text-sm">Profile</span>
+                    <span className="pl-2 text-sm my-4">Profile</span>
                   </a>
                   <NavItem
-                    icon={<GoHeart className="h-4 w-4" />}
+                    icon={
+                      <Badge
+                        badgeContent={WishListLength}
+                        color="secondary"
+                        sx={{
+                          "& .MuiBadge-badge": {
+                            backgroundColor: "#9333EA",
+                            fontSize: "0.7rem",
+                            minWidth: "18px",
+                            height: "18px",
+                          },
+                        }}
+                      >
+                        <GoHeart className="h-4 w-4" />
+                      </Badge>
+                    }
                     text="Favorites"
                   />
                 </div>
               ) : (
                 <div className="fixed top-24 flex flex-col space-y-4 text-gray-600">
-                  <a href="/WishList">
-                    <NavItem
-                      icon={<GoHeart className="h-4 w-4" />}
-                      text="Favorites"
-                    />
-                  </a>
+                  <Badge
+                    badgeContent={WishListLength}
+                    color="secondary"
+                    sx={{
+                      "& .MuiBadge-badge": {
+                        backgroundColor: "#9333EA",
+                        fontSize: "0.7rem",
+                        minWidth: "18px",
+                        height: "18px",
+                      },
+                    }}
+                  >
+                    <a href="/WishList">
+                      <NavItem
+                        icon={<GoHeart className="h-4 w-4" />}
+                        text="Favorites"
+                      />
+                    </a>
+                  </Badge>
                   <a className="flex items-center" href="/Register">
                     <p className="px-5 text-sm">Sign up</p>
                   </a>{" "}

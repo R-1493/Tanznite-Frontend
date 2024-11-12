@@ -18,7 +18,7 @@ function GemstoneCategory(props) {
         gemstones.map((product) => (
           <div
             key={product.gemstoneId}
-            className={`p-4 lg:w-[50%] sm:w-[50%] max-w-md cursor-pointer ${
+            className={`p-4 md:w-[33.33%] sm:w-[50%] max-w-md cursor-pointer ${
               selectedProduct &&
               selectedProduct.gemstones[0]?.gemstoneId == product.gemstoneId
                 ? "border-b-4 border-[#584BA5] transition-all duration-200"

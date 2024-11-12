@@ -1,7 +1,11 @@
-import { React, useState } from "react";
+import { React } from "react";
+import { TiDelete } from "react-icons/ti";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Cart = (props) => {
-  const { storedCart, setStoredCart } = props;
+  const { storedCart, setStoredCart, userData } = props;
+  const navigate = useNavigate();
 
   const handleIncrement = (product) => {
     const updatedCart = storedCart.map((item) => {
@@ -47,11 +51,61 @@ const Cart = (props) => {
       );
     }, 0)
     .toFixed(2);
+
+  const orderDetails = storedCart.map((item) => {
+    return {
+      jewelryId: item.jewelry[0].jewelryId,
+      gemstoneShapeId: item.shapes[0].gemstoneShapeId,
+      quantity: item.quantity,
+    };
+  });
+  console.log(orderDetails);
+  const token = localStorage.getItem("token");
+
+  function checkOut() {
+    if (!userData) {
+      alert("Please log in checkout");
+      navigate("/login");
+      return;
+    }
+    const url = "http://localhost:5125/api/v1/Order";
+    axios
+      .post(
+        url,
+        { singleProduct: orderDetails },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res, "order list");
+
+        if (res.status === 200) {
+          alert("Order is created successfully! ");
+          navigate("/ShopPage");
+          setStoredCart([]);
+        }
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 400) {
+          alert(
+            "Error: You do not have an address associated with your account."
+          );
+        } else {
+          alert(
+            "An error occurred while creating the order. Please try again."
+          );
+        }
+        console.error(error);
+      });
+  }
   return (
     <section>
       <div className="relative h-auto overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="w-full text-sm text-left rtl:text-right dark:text-gray-900">
-          <thead className="text-xs text-gray-950 uppercase bg-gray-100 dark:bg-gray-100 dark:text-gray-950">
+        <table className="w-full text-sm text-left rtl:text-right  hidden md:table">
+          <thead className="text-xs text-gray-950 uppercase bg-gray-100 ">
             <tr>
               <th scope="col" className="px-4 py-3 sm:px-16">
                 <span className="sr-only">Image</span>
@@ -70,15 +124,17 @@ const Cart = (props) => {
               </th>
             </tr>
           </thead>
-          {storedCart.map((product, index) => (
-            <tbody key={index}>
-              <tr className="bg-slate-300 border-b dark:bg-gray-50 dark:border-gray-100 hover:bg-gray-400 dark:hover:bg-gray-100">
-                {" "}
+          <tbody>
+            {storedCart.map((product, index) => (
+              <tr
+                key={index}
+                className="bg-slate-300 border-b items-center justify-between dark:bg-gray-50 dark:border-gray-100 hover:bg-gray-400 dark:hover:bg-gray-100"
+              >
                 <td className="p-4">
                   <img
                     src={product.jewelry[0].jewelryImage}
                     className="w-16 h-auto md:w-32 max-w-full max-h-full"
-                    alt="Apple Watch"
+                    alt="Product Image"
                   />
                 </td>
                 <td className="px-4 py-4 font-semibold text-gray-700 dark:text-black sm:px-6">
@@ -90,7 +146,7 @@ const Cart = (props) => {
                 <td className="px-4 py-4 sm:px-6">
                   <div className="flex items-center">
                     <button
-                      className="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-600 bg-slate-400 border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-400 dark:text-gray-100 dark:border-gray-300 dark:hover:bg-gray-400 dark:hover:border-gray-400 dark:focus:ring-gray-400"
+                      className="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-600 bg-slate-400 border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100"
                       type="button"
                       onClick={() => handleDecrement(product)}
                     >
@@ -112,16 +168,12 @@ const Cart = (props) => {
                       </svg>
                     </button>
                     <div>
-                      <p
-                        type="number"
-                        id="first_product"
-                        className="bg-gray-50 w-14 border border-gray-100 text-gray-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-100 dark:border-gray-400 dark:placeholder-gray-800 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      >
+                      <p className="bg-gray-50 w-14 border border-gray-100 text-gray-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-100 dark:border-gray-400 dark:placeholder-gray-800 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         {product.quantity}
                       </p>
                     </div>
                     <button
-                      className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-600 bg-slate-400 border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-400 dark:text-gray-100 dark:border-gray-300 dark:hover:bg-gray-400 dark:hover:border-gray-400 dark:focus:ring-gray-400"
+                      className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-600 bg-slate-400 border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100"
                       type="button"
                       onClick={() => handleIncrement(product)}
                     >
@@ -145,7 +197,7 @@ const Cart = (props) => {
                   </div>
                 </td>
                 <td className="px-4 py-4 sm:px-6">
-                  ${" "}
+                  $
                   {(
                     ((product.jewelry[0]?.jewelryPrice || 0) +
                       (product.shapes[0]?.gemstoneShapPrice || 0)) *
@@ -162,11 +214,70 @@ const Cart = (props) => {
                   </a>
                 </td>
               </tr>
-            </tbody>
-          ))}
+            ))}
+          </tbody>
         </table>
-        <div className="mt-10 p-3 flex flex-col xl:flex-row jusitfy-center items-stretch w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
-          <div className="flex justify-center flex-col md:flex-row flex-col items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
+        <div className="md:hidden">
+          {storedCart.map((product, index) => (
+            <div
+              key={index}
+              className="p-3 flex flex-row border-b cursor-pointer hover:bg-gray-200"
+            >
+              <div className="flex flex-shrink-0 items-center justify-center">
+                <img
+                  alt={product.jewelry[0].jewelryType}
+                  src={product.jewelry[0].jewelryImage}
+                  className="w-16 h-16 object-cover border border-gray-300 rounded-md"
+                />
+              </div>
+              <div className="flex-grow ml-4 flex flex-col justify-between">
+                <div className="leading-snug text-sm text-gray-900 font-bold">
+                  {product.jewelry[0].jewelryType}
+                </div>
+                <p>{product.jewelry[0].jewelryName} with</p>
+                <p>{product.gemstones[0].gemstoneType} Gemstone</p>
+                <p>{product.shapes[0].shapeName}</p>
+                <span className="font-medium">
+                  ${" "}
+                  {(
+                    ((product.jewelry[0]?.jewelryPrice || 0) +
+                      (product.shapes[0]?.gemstoneShapPrice || 0)) *
+                    product.quantity
+                  ).toFixed(2)}{" "}
+                </span>
+              </div>
+              <div className="flex justify-between items-center ml-auto">
+                <div className="flex gap-6">
+                  <div className="flex justify-between items-center ">
+                    <button
+                      onClick={() => handleDecrement(product)}
+                      className="h-6 w-6 text-gray-600 bg-slate-400 rounded-full"
+                    >
+                      -
+                    </button>
+                    <span className="mx-2">{product.quantity}</span>
+                    <button
+                      onClick={() => handleIncrement(product)}
+                      className="h-6 w-6 text-gray-600 bg-slate-400 rounded-full"
+                    >
+                      +
+                    </button>
+                  </div>
+                  <a
+                    href="#"
+                    className="text-red-600 hover:underline "
+                    onClick={() => deleteFromCart(product)}
+                  >
+                    <TiDelete className="h-9 w-9" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-10 p-3 flex flex-col xl:flex-row justify-center items-stretch w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
+          <div className="flex justify-center flex-col md:flex-row  items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
             <div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50  space-y-6">
               <h3 className="text-xl  font-semibold leading-5 text-gray-800">
                 Summary
@@ -176,51 +287,23 @@ const Cart = (props) => {
                   <p className="text-base  leading-4 text-gray-800">Subtotal</p>
                   <p className="text-base  leading-4 text-gray-600">${total}</p>
                 </div>
-
-                <div className="flex justify-between items-center w-full">
-                  <p className="text-base  leading-4 text-gray-800">Shipping</p>
-                  <p className="text-base  leading-4 text-gray-600">$8.00</p>
-                </div>
               </div>
               <div className="flex justify-between items-center w-full">
                 <p className="text-base  font-semibold leading-4 text-gray-800">
                   Total
                 </p>
                 <p className="text-base  font-semibold leading-4 text-gray-600">
-                  $ {total + 8.0}
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50  space-y-6">
-              <h3 className="text-xl  font-semibold leading-5 text-gray-800">
-                Shipping
-              </h3>
-              <div className="flex justify-between items-start w-full">
-                <div className="flex justify-center items-center space-x-4">
-                  <div className="w-8 h-8">
-                    <img
-                      className="w-full h-full"
-                      alt="logo"
-                      src="https://i.ibb.co/L8KSdNQ/image-3.png"
-                    />
-                  </div>
-                  <div className="flex flex-col justify-start items-center">
-                    <p className="text-lg leading-6  font-semibold text-gray-800">
-                      DPD Delivery
-                      <br />
-                      <span className="font-normal">Delivery with 24 Hours</span>
-                    </p>
-                  </div>
-                </div>
-                <p className="text-lg font-semibold leading-6  text-gray-800">
-                  $8.00
+                  $ {total}
                 </p>
               </div>
             </div>
           </div>
           <div className="w-full flex justify-center items-center">
-            <button className="hover:bg-indigo-700   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 py-5 w-96 md:w-full bg-[#6F64B1] text-base font-medium leading-4 text-white">
-              Order
+            <button
+              onClick={checkOut}
+              className="hover:bg-[#605697] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 py-5 w-96 md:w-[50%] rounded-3xl bg-[#6F64B1] text-base font-medium leading-4 text-white"
+            >
+              Checkout
             </button>
           </div>
           <div className="bg-gray-50  w-full xl:w-96 flex justify-between items-center md:items-start px-4 py-6 md:p-6 xl:p-8 flex-col">

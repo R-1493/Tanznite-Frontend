@@ -35,7 +35,19 @@ export default function HorizontalStepper(props) {
             <Stepper activeStep={activeStep} alternativeLabel>
               {steps.map((label) => (
                 <Step key={label}>
-                  <StepLabel></StepLabel>
+                  <StepLabel
+                    sx={{
+                      "& .MuiStepIcon-root.Mui-active": {
+                        color: "#6F64B1",
+                      },
+                      "& .MuiStepIcon-text": {
+                        display: "none",
+                      },
+                      "& .MuiStepIcon-root.Mui-completed": {
+                        color: "#6F64B1",
+                      },
+                    }}
+                  ></StepLabel>
                 </Step>
               ))}
             </Stepper>

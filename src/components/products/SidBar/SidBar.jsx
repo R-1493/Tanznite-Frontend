@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import { FaCircle } from "react-icons/fa";
 import { TiArrowBackOutline } from "react-icons/ti";
@@ -12,7 +12,7 @@ import { MdOutlineDownloadDone } from "react-icons/md";
 import { VscDebugRestart } from "react-icons/vsc";
 import { FaRegHeart } from "react-icons/fa";
 import { IoHeart } from "react-icons/io5";
-
+import axios from "axios";
 function SidBar(props) {
   const {
     isOpen1,
@@ -31,6 +31,7 @@ function SidBar(props) {
     setStoredWishList,
     storedCart,
     setStoredCart,
+    data,
   } = props;
   const [showReset, setShowReset] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
@@ -90,7 +91,6 @@ function SidBar(props) {
       setStoredWishList([...storedWishList, product]);
     }
   };
-
   const isInWishlist = (product) => {
     return storedWishList.some((wishlistItem) => {
       const isSameJewelry =
@@ -139,48 +139,183 @@ function SidBar(props) {
       setStoredCart([...storedCart, { ...product, quantity: 1 }]);
     }
   };
+  const [categories, setCategories] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  function fetchData() {
+    let url = "http://localhost:5125/api/v1/Categories";
+    axios
+      .get(url)
+      .then((res) => {
+        setCategories(res.data);
+      })
+      .catch(error);
+  }
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <div className="sticky top-0 z-30">
       <div className="relative flex flex-col columns-1 px-6 py-1 rounded-2xl border bg-white mb-3 pt-4">
-        {" "}
-        <button
-          type="button"
-          className="flex w-full items-start pb-3 justify-between"
-          aria-expanded={isOpen1}
-          aria-haspopup="true"
-          onClick={toggleDropdown1}
-        >
-          <h3 className="text-base outline-none ">Filter By Category</h3>
-          <SlArrowDown />
-        </button>
-        {isOpen1 && (
-          <div className="mt-0 w-full z-40">
-            <ul className="py-2 divide-y divide-slate-700 ">
-              <li className="py-2">
-                <label className="items-start">
-                  <Checkbox
-                    checked={selectedBy.includes("1")}
-                    onChange={() => handleCategorySelect("1")}
-                    icon={<FaCircle className="text-[#D9D9D9]" />}
-                    checkedIcon={<FaCircle style={{ color: "#584BA5" }} />}
-                  />
-                  <span className="">Tanzanite</span>
-                </label>
-              </li>
-              <li className="py-2">
-                <label className="items-start">
-                  <Checkbox
-                    checked={selectedBy.includes("Diamond")}
-                    onChange={() => handleCategorySelect("Diamond")}
-                    icon={<FaCircle className="text-[#D9D9D9]" />}
-                    checkedIcon={<FaCircle style={{ color: "#584BA5" }} />}
-                  />
-                  <span className="">Diamond</span>
-                </label>
-              </li>
-            </ul>
+        {activeStep === 0 && (
+          <div>
+            {" "}
+            <button
+              type="button"
+              className="flex w-full items-start pb-3 justify-between"
+              aria-expanded={isOpen1}
+              aria-haspopup="true"
+              onClick={toggleDropdown1}
+            >
+              <h3 className="text-base outline-none ">Filter By Category</h3>
+              <SlArrowDown />
+            </button>
+            {isOpen1 && (
+              <div className="mt-0 w-full z-40">
+                <ul className="py-2 divide-y divide-slate-700 ">
+                  {categories && categories.length > 0 ? (
+                    categories.map((category, index) => (
+                      <li key={category.categoryId} className="py-2">
+                        <label className="items-start">
+                          <Checkbox
+                            checked={
+                              selectedBy.includes(category.categoryId) ||
+                              (index === 0 && selectedBy.length === 0)
+                            }
+                            onChange={() => {
+                              handleCategorySelect(category.categoryId);
+                              if (index === 0 && selectedBy.length === 0) {
+                                setSelectedBy([category.categoryId]);
+                              }
+                            }}
+                            icon={<FaCircle className="text-[#D9D9D9]" />}
+                            checkedIcon={
+                              <FaCircle style={{ color: "#584BA5" }} />
+                            }
+                          />
+                          <span className="">{category.categoryName}</span>
+                        </label>
+                      </li>
+                    ))
+                  ) : (
+                    <p>There are no categories available.</p>
+                  )}
+                </ul>
+              </div>
+            )}
           </div>
         )}
+        {activeStep === 1 && (
+          <div>
+            {" "}
+            <button
+              type="button"
+              className="flex w-full items-start pb-3 justify-between"
+              aria-expanded={isOpen1}
+              aria-haspopup="true"
+              onClick={toggleDropdown1}
+            >
+              <h3 className="text-base outline-none ">Filter By Shape</h3>
+              <SlArrowDown />
+            </button>
+            {isOpen1 && (
+              <div className="mt-0 w-full z-40">
+                <ul className="py-2 divide-y divide-slate-700 ">
+                  {data?.gemstonesShape && data?.gemstonesShape.length > 0 ? (
+                    Array.from(
+                      new Set(data.gemstonesShape.map((item) => item.shapeName))
+                    ).map((shapeName, index) => {
+                      const shapeData = data.gemstonesShape.find(
+                        (item) => item.shapeName === shapeName
+                      );
+                      return (
+                        <li key={shapeData.gemstoneShapeId} className="py-2">
+                          <label className="items-start">
+                            <Checkbox
+                              checked={
+                                selectedBy.includes(shapeName) ||
+                                (index === 0 && selectedBy.length === 0)
+                              }
+                              onChange={() => {
+                                handleCategorySelect(shapeName);
+                                if (index === 0 && selectedBy.length === 0) {
+                                  setSelectedBy[shapeName];
+                                }
+                              }}
+                              icon={<FaCircle className="text-[#D9D9D9]" />}
+                              checkedIcon={
+                                <FaCircle style={{ color: "#584BA5" }} />
+                              }
+                            />
+                            <span>{shapeName}</span>
+                          </label>
+                        </li>
+                      );
+                    })
+                  ) : (
+                    <p>There are no gemstone shapes available.</p>
+                  )}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}{" "}
+        {activeStep === 2 && (
+          <div>
+            {" "}
+            <button
+              type="button"
+              className="flex w-full items-start pb-3 justify-between"
+              aria-expanded={isOpen1}
+              aria-haspopup="true"
+              onClick={toggleDropdown1}
+            >
+              <h3 className="text-base outline-none ">Filter By Jewelry</h3>
+              <SlArrowDown />
+            </button>
+            {isOpen1 && (
+              <div className="mt-0 w-full z-40">
+                <ul className="py-2 divide-y divide-slate-700 ">
+                  {data?.jewelry && data?.jewelry.length > 0 ? (
+                    Array.from(
+                      new Set(data.jewelry.map((item) => item.jewelryName))
+                    ).map((jewelryName, index) => {
+                      const jewelryData = data.jewelry.find(
+                        (item) => item.jewelryName === jewelryName
+                      );
+                      return (
+                        <li key={jewelryData.jewelryId} className="py-2">
+                          <label className="items-start">
+                            <Checkbox
+                              checked={
+                                selectedBy.includes(jewelryName) ||
+                                (index === 0 && selectedBy.length === 0)
+                              }
+                              onChange={() => {
+                                handleCategorySelect(jewelryName);
+                                if (index === 0 && selectedBy.length === 0) {
+                                  setSelectedBy[jewelryName];
+                                }
+                              }}
+                              icon={<FaCircle className="text-[#D9D9D9]" />}
+                              checkedIcon={
+                                <FaCircle style={{ color: "#584BA5" }} />
+                              }
+                            />
+                            <span>{jewelryName}</span>
+                          </label>
+                        </li>
+                      );
+                    })
+                  ) : (
+                    <p>There are no gemstone shapes available.</p>
+                  )}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}{" "}
       </div>
       <div className="relative flex flex-col columns-1 px-1 sm:px-1 lg:px-6 py-1 rounded-2xl border bg-white mb-3 pt-4">
         <button
@@ -229,7 +364,9 @@ function SidBar(props) {
                             src={selectedProduct.jewelry[0].jewelryImage}
                           />
                         ) : (
-                          <p>Please select a jewelry</p>
+                          <h5 className="flex relative text-center mt-0 mb-5">
+                            Please select a jewelry
+                          </h5>
                         ))}
                     </div>
                   </div>
@@ -248,21 +385,23 @@ function SidBar(props) {
                       <TiArrowBackOutline className="text-gray-300" />
                     </button>
                   ) : (
-                    <button onClick={handleBack}>
+                    <button
+                      onClick={handleBack}
+                      className="w-1/4 justify-items-center"
+                    >
                       <TiArrowBackOutline className="text-gray-500" />
                     </button>
                   )}
                   {isComplete ? (
                     <>
-                      <button onClick={() => addToFav(selectedProduct)}>
+                      <button
+                        onClick={() => addToFav(selectedProduct)}
+                        className="w-1/4 justify-items-center"
+                      >
                         {isInWishlist(selectedProduct) ? (
-                          <IoHeart
-                            style={{ color: "red", marginRight: "0.5rem" }}
-                          />
+                          <IoHeart style={{ color: "red" }} />
                         ) : (
-                          <FaRegHeart
-                            style={{ color: "#666666", marginRight: "0.5rem" }}
-                          />
+                          <FaRegHeart style={{ color: "#666666" }} />
                         )}
                       </button>
                       <button
@@ -289,22 +428,28 @@ function SidBar(props) {
                     {!isComplete &&
                     activeStep === totalSteps - 2 &&
                     selectedProduct.jewelry[0] ? (
-                      <MdOutlineDownloadDone
-                        className=" text-green-400"
-                        onClick={handleComplete}
-                      />
+                      <button className="w-1/4 justify-items-center">
+                        <MdOutlineDownloadDone
+                          className=" text-green-400 mt-2 h-4 w-4"
+                          onClick={handleComplete}
+                        />{" "}
+                      </button>
                     ) : (
                       !showReset && (
-                        <TiArrowForwardOutline
-                          className={determineArrowColor()}
-                        />
+                        <button className="w-1/4 justify-items-center">
+                          <TiArrowForwardOutline
+                            className={determineArrowColor()}
+                          />{" "}
+                        </button>
                       )
                     )}
                     {isComplete && showReset && (
-                      <VscDebugRestart
+                      <button
+                        className="w-1/4 justify-items-center"
                         onClick={handleReset}
-                        className="text-blue-500"
-                      />
+                      >
+                        <VscDebugRestart className=" text-blue-500 mt-2 h-4 w-4" />
+                      </button>
                     )}
                   </button>
                 </>

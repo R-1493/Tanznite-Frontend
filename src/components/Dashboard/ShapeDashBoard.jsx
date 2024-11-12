@@ -19,7 +19,6 @@ function ShapeDashBoard(props) {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [anchorEl, setAnchorEl] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [gemstoneList, setGemstoneList] = useState([]);
 

@@ -6,7 +6,8 @@ import JewellerySetting from "./Steps/JewellerySetting";
 import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
 import ProductPagination from "./ProductPagination";
-
+import Form from "../Form/Form";
+import PriceRangeForm from "./PriceRangeForm";
 function Products(props) {
   const {
     isOpen1,
@@ -25,6 +26,12 @@ function Products(props) {
     setStoredWishList,
     storedCart,
     setStoredCart,
+    setUserInput,
+    userInput,
+    minPrice,
+    setMinPrice,
+    maxPrice,
+    setMaxPrice,
   } = props;
 
   const [page, setPage] = useState(1);
@@ -40,29 +47,39 @@ function Products(props) {
     "http://localhost:5125/api/v1/GemstoneShape",
     "http://localhost:5125/api/v1/Jewelry",
   ];
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(urls[activeStep], {
-          params: {
-            Limit: limit,
-            Offset: offset,
-            MinPrice: 0,
-            MaxPrice: 10000,
-          },
-        });
-        setData(response.data);
-        console.log(response.data);
-        setTotalCount(response.data.totalCount);
-        setLoading(false);
-      } catch (error) {
-        setError("Failed to fetch data");
-        setLoading(false);
-      }
-    };
 
+  const fetchData = async () => {
+    try {
+      const params = {
+        Limit: limit,
+        Offset: offset,
+      };
+      if (userInput) {
+        params.search = userInput;
+      }
+      if (minPrice) {
+        params.MinPrice = minPrice;
+      }
+      if (maxPrice) {
+        params.MaxPrice = maxPrice;
+      }
+
+      const response = await axios.get(urls[activeStep], {
+        params,
+      });
+
+      setData(response.data);
+      console.log(response.data);
+      setTotalCount(response.data.totalCount);
+      setLoading(false);
+    } catch (error) {
+      setError("Failed to fetch data");
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
     fetchData();
-  }, [activeStep, offset]);
+  }, [activeStep, offset, userInput, minPrice, maxPrice]);
 
   console.log(data);
 
@@ -90,7 +107,6 @@ function Products(props) {
   if (error) {
     return <div>Error: {error}</div>;
   }
-  let filteredShapes = [];
   const handleNextStep = () => {
     if (activeStep === 0 && selectedProduct.gemstones.length <= 0) return;
     if (activeStep === 1 && selectedProduct.shapes.length <= 0) return;
@@ -128,22 +144,42 @@ function Products(props) {
   console.log(selectedGemstone);
 
   const displayStep = (step) => {
+    if (!data) return null;
+
+    let filteredShapes = [];
+
     if (step === 1) {
       filteredShapes =
         data?.gemstonesShape?.filter(
           (shape) => shape.gemstoneId === selectedGemstone
         ) || [];
     }
+
     switch (step) {
       case 0:
         return (
           <div>
+            <div className="flex justify-between mb-5">
+              <PriceRangeForm
+                setMaxPrice={setMaxPrice}
+                setMinPrice={setMinPrice}
+                minPrice={minPrice}
+                maxPrice={maxPrice}
+              />
+              <Form setUserInput={setUserInput} />
+            </div>
             <GemstoneCategory
               setIsOpen2={setIsOpen2}
               selectedProduct={selectedProduct}
               setSelectedProduct={setSelectedProduct}
-              gemstones={data.gemstones}
               handleNext={handleNext}
+              gemstones={
+                data.gemstones?.filter(
+                  (product) =>
+                    selectedBy.length === 0 ||
+                    selectedBy.includes(product.categoryId)
+                ) || []
+              }
             />
             <div className="w-full flex justify-center mt-4">
               <ProductPagination
@@ -157,6 +193,15 @@ function Products(props) {
       case 1:
         return (
           <div>
+            <div className="flex justify-between mb-5">
+              <PriceRangeForm
+                setMaxPrice={setMaxPrice}
+                setMinPrice={setMinPrice}
+                minPrice={minPrice}
+                maxPrice={maxPrice}
+              />
+              <Form setUserInput={setUserInput} />
+            </div>{" "}
             <GemstoneShape
               setIsOpen2={setIsOpen2}
               selectedProduct={selectedProduct}
@@ -176,12 +221,22 @@ function Products(props) {
       case 2:
         return (
           <div>
+            <div className="flex flex-col justify-between items-center gap-4">
+              <PriceRangeForm
+                setMaxPrice={setMaxPrice}
+                setMinPrice={setMinPrice}
+                minPrice={minPrice}
+                maxPrice={maxPrice}
+              />
+              <Form setUserInput={setUserInput} />
+            </div>{" "}
             <JewellerySetting
               setIsOpen2={setIsOpen2}
               selectedProduct={selectedProduct}
               setSelectedProduct={setSelectedProduct}
-              jewelry={data.jewelry}
+              jewelry={data.jewelry || []}
               handleNext={handleNext}
+              activeStep={activeStep}
             />
             <div className="w-full flex justify-center mt-4">
               <ProductPagination
@@ -196,7 +251,6 @@ function Products(props) {
         return null;
     }
   };
-
   return (
     <section className="border-gray-800 bg-[#D4D4D4] body-font pb-20 pt-3 justify-center">
       <div className="container px-5 py-0 mx-auto">
@@ -220,6 +274,7 @@ function Products(props) {
               setStoredWishList={setStoredWishList}
               storedCart={storedCart}
               setStoredCart={setStoredCart}
+              data={data}
             />
           </div>
           <div className="pl-3 pr-3 w-[50%] sm:w-3/4 lg:w-3/4 justify-center ml-auto mr-auto">

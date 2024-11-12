@@ -309,7 +309,7 @@ function UserProfile(props) {
             <div className="bg-white shadow rounded-lg p-6">
               <div className="flex items-center justify-between">
                 <a
-                  href="#"
+                  href="/Address"
                   className="flex items-center text-xl font-bold text-gray-700 hover:text-gray-600 hover:underline"
                   tabIndex="0"
                   role="link"
@@ -321,6 +321,7 @@ function UserProfile(props) {
                   className="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-300 transform bg-gray-600 rounded cursor-pointer hover:bg-gray-500 "
                   tabIndex="0"
                   role="button"
+                  href="/Address"
                 >
                   Address
                 </a>
@@ -341,6 +342,7 @@ function UserProfile(props) {
                   className="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-300 transform bg-gray-600 rounded cursor-pointer hover:bg-gray-500"
                   tabIndex="0"
                   role="button"
+                  href="/orders"
                 >
                   Shippend
                 </a>

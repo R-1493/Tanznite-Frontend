@@ -18,14 +18,17 @@ import ProductDashBoard from "./components/Dashboard/ProductDashBoard";
 import OrderDashBoard from "./components/Dashboard/OrderDashBoard";
 import ShapeDashBoard from "./components/Dashboard/ShapeDashBoard";
 import JewelryDashboard from "./components/Dashboard/JewelryDashboard";
-
+import UserOrderHistory from "./components/Orders/UserOrderHistory";
+import Address from "./components/Address/Address";
 function App() {
   const steps = ["Gemstone Category", "Gemstone Shape", "Jeweller Setting"];
 
   const [currentStep, setCurrentStep] = useState(1);
   const [isOpen1, setIsOpen1] = useState(false);
   const [isOpen2, setIsOpen2] = useState(false);
-
+  const [userInput, setUserInput] = useState("");
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(100000);
   const [selectedProduct, setSelectedProduct] = useState({
     gemstones: [],
     shapes: [],
@@ -76,6 +79,8 @@ function App() {
           someProp="value"
           userData={userData}
           isAuthenticated={isAuthenticated}
+          storedWishList={storedWishList}
+          storedCart={storedCart}
         />
       ),
       children: [
@@ -106,13 +111,23 @@ function App() {
               setStoredWishList={setStoredWishList}
               storedCart={storedCart}
               setStoredCart={setStoredCart}
+              userInput={userInput}
+              setUserInput={setUserInput}
+              minPrice={minPrice}
+              setMinPrice={setMinPrice}
+              maxPrice={maxPrice}
+              setMaxPrice={setMaxPrice}
             />
           ),
         },
         {
           path: "/Cart",
           element: (
-            <Cart storedCart={storedCart} setStoredCart={setStoredCart} />
+            <Cart
+              storedCart={storedCart}
+              setStoredCart={setStoredCart}
+              userData={userData}
+            />
           ),
         },
         {
@@ -141,6 +156,8 @@ function App() {
             />
           ),
         },
+        { path: "/orders", element: <UserOrderHistory userData={userData} /> },
+        { path: "/Address", element: <Address /> },
         {
           path: "/",
           element: <LayoutDashBoard />,
