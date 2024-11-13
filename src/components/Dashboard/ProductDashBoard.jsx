@@ -34,14 +34,14 @@ function ProductDashBoard(props) {
     gemstoneDescription: "",
     categoryId: "",
   });
-
+  console.log(productInfo);
   const [CategoryInfo, setCategoryInfo] = useState({
     categoryName: "",
   });
 
   function fetchData() {
     let url =
-      "http://localhost:5125/api/v1/Gemstone?Limit=100&Offset=0&MinPrice=0&MaxPrice=10000";
+      "http://localhost:5125/api/v1/Gemstone?Limit=100&Offset=0&MinPrice=0&MaxPrice=100000";
     axios
       .get(url)
       .then((response) => {

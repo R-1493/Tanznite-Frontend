@@ -2,13 +2,7 @@ import React, { useState, useEffect } from "react";
 // step 1
 
 function GemstoneShape(props) {
-  const {
-    setIsOpen2,
-    setSelectedProduct,
-    selectedProduct,
-    gemstonesShape,
-    handleNext,
-  } = props;
+  const { selectedProduct, gemstonesShape, handleNext } = props;
 
   const handleProductSelect = (product) => {
     handleNext("shapes", product);

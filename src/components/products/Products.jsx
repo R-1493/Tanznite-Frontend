@@ -40,7 +40,7 @@ function Products(props) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const limit = 4;
+  const limit = 6;
   const offset = (page - 1) * limit;
   const urls = [
     "http://localhost:5125/api/v1/Gemstone",
@@ -69,7 +69,6 @@ function Products(props) {
       });
 
       setData(response.data);
-      console.log(response.data);
       setTotalCount(response.data.totalCount);
       setLoading(false);
     } catch (error) {
@@ -81,7 +80,6 @@ function Products(props) {
     fetchData();
   }, [activeStep, offset, userInput, minPrice, maxPrice]);
 
-  console.log(data);
 
   const handleChange = (event, value) => {
     setPage(value);
@@ -141,7 +139,6 @@ function Products(props) {
     setIsOpen2(true);
   };
   const selectedGemstone = selectedProduct.gemstones[0]?.gemstoneId;
-  console.log(selectedGemstone);
 
   const displayStep = (step) => {
     if (!data) return null;
@@ -159,7 +156,7 @@ function Products(props) {
       case 0:
         return (
           <div>
-            <div className="flex justify-between mb-5">
+            <div className="flex md:flex-row flex-col justify-between items-center gap-4">
               <PriceRangeForm
                 setMaxPrice={setMaxPrice}
                 setMinPrice={setMinPrice}
@@ -193,7 +190,7 @@ function Products(props) {
       case 1:
         return (
           <div>
-            <div className="flex justify-between mb-5">
+            <div className="flex md:flex-row flex-col justify-between items-center gap-4">
               <PriceRangeForm
                 setMaxPrice={setMaxPrice}
                 setMinPrice={setMinPrice}
@@ -206,7 +203,17 @@ function Products(props) {
               setIsOpen2={setIsOpen2}
               selectedProduct={selectedProduct}
               setSelectedProduct={setSelectedProduct}
-              gemstonesShape={filteredShapes}
+              gemstonesShape={
+                filteredShapes.length > 0
+                  ? filteredShapes.filter(
+                      (shape) =>
+                        selectedBy.length === 0 ||
+                        selectedBy.includes(shape.shapeName)
+                    )
+                  : data?.gemstonesShape?.filter(
+                      (shape) => shape.gemstoneId === selectedGemstone
+                    ) || []
+              }
               handleNext={handleNext}
             />
             <div className="w-full flex justify-center mt-4">
@@ -221,7 +228,7 @@ function Products(props) {
       case 2:
         return (
           <div>
-            <div className="flex flex-col justify-between items-center gap-4">
+            <div className="flex md:flex-row flex-col justify-between items-center gap-4">
               <PriceRangeForm
                 setMaxPrice={setMaxPrice}
                 setMinPrice={setMinPrice}

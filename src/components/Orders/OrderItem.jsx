@@ -39,8 +39,8 @@ function OrderItem(props) {
   return (
     <div className="flex-shrink-0 m-4 relative overflow-hidden w-full sm:w-[90%] md:w-[80%] lg:w-[60%] rounded-lg shadow-lg group border-[1.7px] border-gray-400">
       {" "}
-      <div class="max-w-2xl w-full px-4 py-4 space-y-4 h-auto">
-        <p class="text-lg font-bold">Order Id: #{order.orderId}</p>
+      <div className="max-w-2xl w-full px-4 py-4 space-y-4 h-auto">
+        <p className="text-lg font-bold">Order Id: #{order.orderId}</p>
         <div className="flex justify-end items-end">
           {" "}
           <ExpandMore
@@ -57,42 +57,49 @@ function OrderItem(props) {
           {order.singleProduct.map((item) => (
             <div
               key={item.singleProductId}
-              class="flex flex-col border-b border-gray-300 pb-4 mb-4"
+              className="flex flex-col border-b border-gray-300 pb-4 mb-4"
             >
-              <div class="flex items-center justify-center">
-                <img
-                  class="object-cover w-20 h-20 md:w-32 md:h-32 rounded-xl ring ring-white border-[1.7px] border-gray-400"
-                  src={item.jewelry.jewelryImage}
-                  alt={item.jewelry.jewelryName}
-                />
-                <img
-                  class="object-cover w-20 h-20 md:w-32 md:h-32 -mx-4 rounded-xl ring ring-white border-[1.7px] border-gray-400"
-                  src={item.gemstoneShape.gemstoneImage}
-                  alt={item.gemstoneShape.shapeName}
-                />
+              <div className="flex items-center justify-center">
+                <div className="h-[80%] overflow-hidden">
+                  <div className="relative flex items-center justify-center h-full">
+                    <img
+                      className="object-fill object-center h-full w-full"
+                      src={item.jewelry.jewelryImage}
+                      alt={item.jewelry.jewelryName}
+                    />
+                    <img
+                      className="absolute object-cover h-full w-full"
+                      src={item.gemstoneShape.gemstoneImage}
+                      alt={item.gemstoneShape.shapeName}
+                    />
+                  </div>{" "}
+                </div>
+               
               </div>
-              <div class="flex justify-start mt-5">
-                <span class="block opacity-75 -mb-1 mr-5">Jewelry:</span>
-                <span class="block font-semibold text-lg">
+              <div className="flex justify-start mt-5">
+                <span className="block opacity-75 -mb-1 mr-5">Jewelry:</span>
+                <span className="block font-semibold text-lg">
                   {item.jewelry.jewelryType} {item.jewelry.jewelryName}
                 </span>
               </div>
-              <div class="flex justify-start mt-2">
-                <span class="block opacity-75 -mb-1 mr-5">Gemstone Cut:</span>
-                <span class="block font-semibold text-lg">
+              <div className="flex justify-start mt-2">
+                <span className="block opacity-75 -mb-1 mr-5">
+                  Gemstone Cut:
+                </span>
+                <span className="block font-semibold text-lg">
                   {item.gemstoneShape.shapeName}
                 </span>
               </div>
-              <span class="font-light text-start text-sm mt-3">
+              <span className="font-light text-start text-sm mt-3">
                 {item.gemstoneShape.gemstoneShapeInfo}
               </span>
-              <div class="relative text-black px-3 pb-6 mt-6">
-                <span class="block opacity-75 -mb-1 mr-5">Weight</span>
-                <div class="flex justify-between">
-                  <span class="block font-semibold text-lg mr-5 pr-5">
+              <div className="relative text-black px-3 pb-6 mt-6">
+                <span className="block opacity-75 -mb-1 mr-5">Weight</span>
+                <div className="flex justify-between">
+                  <span className="block font-semibold text-lg mr-5 pr-5">
                     {item.gemstoneShape.gemstoneShapWeight} grams
                   </span>
-                  <span class="block bg-white rounded-full text-purple-600 text-lg font-bold px-3 py-2 leading-none">
+                  <span className="block bg-white rounded-full text-purple-600 text-lg font-bold px-3 py-2 leading-none">
                     {item.finalPrice}
                   </span>
                 </div>

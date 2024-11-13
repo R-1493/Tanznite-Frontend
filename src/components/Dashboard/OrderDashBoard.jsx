@@ -27,7 +27,7 @@ function OrderDashBoard(props) {
     <div>
       {" "}
       <span className="text-lg font-bold text-gray-700 ">
-        <h1> Gemstone Shape DashBoard </h1>
+        <h1> Order DashBoard </h1>
       </span>{" "}
       <div>
         {orderResponse.length > 0 ? (
@@ -39,7 +39,7 @@ function OrderDashBoard(props) {
             />
           ))
         ) : (
-          <p>No gemstones available.</p>
+          <p>No Order available.</p>
         )}
       </div>
     </div>

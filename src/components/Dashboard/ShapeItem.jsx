@@ -12,27 +12,32 @@ function ShapeItem(props) {
   const { product, fetchData, gemstoneList } = props;
   const [isOpen, setIsOpen] = useState(false);
   const [productInfo, setProductInfo] = useState({
-    shapeName: "",
-    gemstoneImage: "",
-    gemstoneShapPrice: null,
-    gemstoneShapWeight: "",
-    gemstoneShapeInfo: "",
-    gemstoneId: "",
+    shapeName: product.shapeName || "",
+    gemstoneImage: product.gemstoneImage || "",
+    gemstoneShapPrice: product.gemstoneShapPrice || null,
+    gemstoneShapWeight: product.gemstoneShapWeight || "",
+    gemstoneShapeInfo: product.gemstoneShapeInfo || "", // Default to empty string (optional)
+    gemstoneId: product.gemstoneId || "",
   });
 
+  // Handler for updating the form state
   function onChangeHandlerGemstoneShape(event) {
     setProductInfo({
       ...productInfo,
       [event.target.name]: event.target.value,
     });
   }
+
+  // Function to update product
   function updateProduct() {
     const token = localStorage.getItem("token");
     const url = `http://localhost:5125/api/v1/GemstoneShape/${product.gemstoneShapeId}`;
 
     const updatedData = {};
+
+    // Include only non-empty fields (optional GemstoneShapeInfo will be omitted if empty)
     Object.keys(productInfo).forEach((key) => {
-      if (productInfo[key] !== "") {
+      if (productInfo[key] !== "" && productInfo[key] !== null) {
         updatedData[key] = productInfo[key];
       }
     });
@@ -50,7 +55,15 @@ function ShapeItem(props) {
           setIsOpen(false);
         }
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        if (error.response) {
+          alert(
+            `Error: ${error.response.data.message || "Something went wrong!"}`
+          );
+        } else {
+          console.log(error);
+        }
+      });
   }
 
   function deleteProductById() {

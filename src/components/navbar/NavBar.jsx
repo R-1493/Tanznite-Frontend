@@ -17,7 +17,6 @@ const NavItem = ({ icon, text }) => (
 
 export default function NavBar(props) {
   const { userData, isAuthenticated, storedWishList, storedCart } = props;
-  console.log("navbar userData", userData);
   const [isOpen, setIsOpen] = useState(false);
   const WishListLength = storedWishList.length;
   const CartLength = storedCart.length;
@@ -147,10 +146,24 @@ export default function NavBar(props) {
                       />
                     </a>
                   </Badge>
-                  <a className="flex items-center" href="/Register">
+                  <a
+                    className={`flex items-center ${
+                      window.location.pathname === "/Register"
+                        ? "text-[#6F64B1]"
+                        : "hover:text-[#6F64B1]"
+                    }`}
+                    href="/Register"
+                  >
                     <p className="px-5 text-sm">Sign up</p>
                   </a>{" "}
-                  <a className="flex items-center" href="/Login">
+                  <a
+                    className={`flex items-center ${
+                      window.location.pathname === "/Login"
+                        ? "text-[#6F64B1]"
+                        : "hover:text-[#6F64B1]"
+                    }`}
+                    href="/Login"
+                  >
                     <p className="px-5 text-sm">Login</p>
                   </a>
                 </div>
@@ -166,20 +179,32 @@ export default function NavBar(props) {
         </a>
         <nav className="flex cormorant-infant-light items-center justify-center gap-3 text-gray-600">
           <a
-            className="font-semibold  duration-150 ease-in-out hover:text-indigo-700"
+            className={`font-semibold duration-150 ease-in-out ${
+              window.location.pathname === "/"
+                ? "text-[#6F64B1]"
+                : "hover:text-[#6F64B1]"
+            }`}
             href="/"
           >
             Home
           </a>
           <a
-            className="font-semibold  duration-150 ease-in-out hover:text-indigo-700"
+            className={`font-semibold duration-150 ease-in-out ${
+              window.location.pathname === "/ShopPage"
+                ? "text-[#6F64B1]"
+                : "hover:text-[#6F64B1]"
+            }`}
             href="/ShopPage"
           >
             Shop
           </a>
           {isAuthenticated && userData?.role === "Admin" && (
             <a
-              className="font-semibold duration-150 ease-in-out hover:text-indigo-700"
+              className={`font-semibold duration-150 ease-in-out ${
+                window.location.pathname === "/User-Dashboard"
+                  ? "text-[#6F64B1]"
+                  : "hover:text-[#6F64B1]"
+              }`}
               href="/User-Dashboard"
             >
               Dashboard
@@ -187,9 +212,9 @@ export default function NavBar(props) {
           )}
         </nav>
       </header>
-      <div className="fixed flex m-10 z-40 justify-center items-center rounded-full bg-neutral-300 bottom-10 h-14 w-6">
+      {/* <div className="fixed flex m-10 z-40 justify-center items-center rounded-full bg-neutral-300 bottom-10 h-14 w-6">
         <IoIosArrowRoundDown className="h-8 w-8 m-auto" />
-      </div>
+      </div> */}
     </>
   );
 }

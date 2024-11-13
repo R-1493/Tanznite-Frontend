@@ -131,11 +131,23 @@ const Cart = (props) => {
                 className="bg-slate-300 border-b items-center justify-between dark:bg-gray-50 dark:border-gray-100 hover:bg-gray-400 dark:hover:bg-gray-100"
               >
                 <td className="p-4">
-                  <img
-                    src={product.jewelry[0].jewelryImage}
-                    className="w-16 h-auto md:w-32 max-w-full max-h-full"
-                    alt="Product Image"
-                  />
+                 
+                  <div className="relative flex items-center justify-center h-full ">
+                    <img
+                      alt={product.jewelry[0].jewelryName}
+                      className="object-fill object-center w-16 md:w-32 max-w-full max-h-full"
+                      src={product.jewelry[0].jewelryImage}
+                      style={{ zIndex: 1 }}
+                    />
+                    {product?.shapes[0]?.gemstoneImage && (
+                      <img
+                        alt={product?.shapes[0]?.gemstoneType}
+                        src={product.shapes[0].gemstoneImage}
+                        className="absolute object-cover w-16 md:w-32 max-w-full max-h-full"
+                        style={{ zIndex: 2 }}
+                      />
+                    )}
+                  </div>
                 </td>
                 <td className="px-4 py-4 font-semibold text-gray-700 dark:text-black sm:px-6">
                   {product.jewelry[0].jewelryType}

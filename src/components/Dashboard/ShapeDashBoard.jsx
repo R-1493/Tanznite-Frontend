@@ -33,7 +33,7 @@ function ShapeDashBoard(props) {
 
   function fetchData() {
     let url =
-      "http://localhost:5125/api/v1/GemstoneShape?Limit=100&Offset=0&MinPrice=0&MaxPrice=10000";
+      "http://localhost:5125/api/v1/GemstoneShape?Limit=100&Offset=0&MinPrice=0&MaxPrice=100000";
     axios
       .get(url)
       .then((response) => {
@@ -49,14 +49,15 @@ function ShapeDashBoard(props) {
   useEffect(() => {
     fetchData();
   }, []);
-
+  console.log(gemstoneList);
   function fetchGemstone() {
-    let url = "http://localhost:5125/api/v1/Gemstone";
+    let url =
+      "http://localhost:5125/api/v1/Gemstone?Limit=100&Offset=0&MinPrice=0&MaxPrice=100000";
     axios
       .get(url)
       .then((response) => {
         console.log(response.data);
-        setGemstoneList(response.data); // Ensure you set the state here
+        setGemstoneList(response.data); 
         setLoading(false);
       })
       .catch((error) => {
@@ -211,14 +212,21 @@ function ShapeDashBoard(props) {
                   label="gemstone Id"
                   onChange={onChangeHandlerGemstoneShape}
                 >
-                  {gemstoneList.gemstones.map((gemstone) => (
-                    <MenuItem
-                      key={gemstone.gemstoneId}
-                      value={gemstone.gemstoneId}
-                    >
-                      {gemstone.gemstoneType}
-                    </MenuItem>
-                  ))}
+                  {gemstoneList.gemstones
+                    .filter(
+                      (value, index, self) =>
+                        self.findIndex(
+                          (t) => t.gemstoneType === value.gemstoneType
+                        ) === index
+                    ) 
+                    .map((gemstone) => (
+                      <MenuItem
+                        key={gemstone.gemstoneId}
+                        value={gemstone.gemstoneId}
+                      >
+                        {gemstone.gemstoneType}
+                      </MenuItem>
+                    ))}
                 </Select>
               </FormControl>
             </div>

@@ -22,7 +22,7 @@ function PriceRangeForm(props) {
         id="price-range"
         className="w-full  accent-[#6F64B1]"
         min="0"
-        max="100000"
+        max="90000"
         value={maxPrice}
         onChange={onChangeHandler}
       />

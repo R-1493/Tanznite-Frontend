@@ -25,7 +25,7 @@ function UserOrderHistory(props) {
     return <div> No order history </div>;
   }
   return (
-    <div class="p-1 flex flex-wrap items-start justify-start">
+    <div className="p-1 flex flex-wrap items-start justify-start">
       <div className="p-1 flex flex-wrap items-start ml-4 justify-start w-full">
         <h1 className="text-2xl font-bold mb-4">User Order History</h1>
         <div className="orderListContainer w-full">

@@ -28,7 +28,7 @@ function App() {
   const [isOpen2, setIsOpen2] = useState(false);
   const [userInput, setUserInput] = useState("");
   const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(100000);
+  const [maxPrice, setMaxPrice] = useState(90000);
   const [selectedProduct, setSelectedProduct] = useState({
     gemstones: [],
     shapes: [],

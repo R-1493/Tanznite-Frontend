@@ -44,11 +44,24 @@ const WishList = (props) => {
                 className="bg-slate-300 border-b dark:bg-gray-50 dark:border-gray-100 hover:bg-gray-400 dark:hover:bg-gray-100"
               >
                 <td className="p-4">
-                  <img
-                    src={product.jewelry[0].jewelryImage}
-                    className="w-16 md:w-32 max-w-full max-h-full"
-                    alt="Apple Watch"
-                  />
+                 
+                  <div className="relative flex items-center justify-center h-full ">
+                    <img
+                      alt={product.jewelry[0].jewelryName}
+                      className="object-fill object-center w-16 md:w-32 max-w-full max-h-full"
+                      src={product.jewelry[0].jewelryImage}
+                      style={{ zIndex: 1 }}
+                    />
+                    {product?.shapes[0]?.gemstoneImage && (
+                      <img
+                        alt={product?.shapes[0]?.gemstoneType}
+                        // src="https://www.tanzanite-int.com/wp-content/uploads/2019/09/loose-oval-product-768x514.png"
+                        src={product.shapes[0].gemstoneImage}
+                        className="absolute object-cover w-16 md:w-32 max-w-full max-h-full"
+                        style={{ zIndex: 2 }}
+                      />
+                    )}
+                  </div>
                 </td>
                 <td className="px-6 py-4 font-semibold text-gray-700 dark:text-black text-center">
                   {product.jewelry[0].jewelryType}

@@ -2,13 +2,10 @@ import React from "react";
 // step 0
 function GemstoneCategory(props) {
   const {
-    setIsOpen2,
-    setSelectedProduct,
     selectedProduct,
     gemstones,
     handleNext,
   } = props;
-  console.log(selectedProduct.gemstones[0]);
   const handleProductSelect = (product) => {
     handleNext("gemstones", product);
   };
@@ -37,7 +34,7 @@ function GemstoneCategory(props) {
               {product.gemstoneType}
             </h2>
             <p className="text-base leading-relaxed">
-              ${product.gemstonePrice}
+              {product.gemstoneClarity}
             </p>
           </div>
         ))
