@@ -48,6 +48,10 @@ function App() {
   function getUserData() {
     setIsUserDataLoading(true);
     const token = localStorage.getItem("token");
+    if (!token) {
+      setIsUserDataLoading(false);
+      return;
+    }
     axios
       .get(
         "https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/User/Profile",
@@ -64,6 +68,10 @@ function App() {
       .catch((err) => {
         setIsUserDataLoading(false);
         console.log(err);
+        if (err.response && err.response.status === 401) {
+          localStorage.removeItem("token");
+          setUserData(null);
+        }
       });
   }
 
