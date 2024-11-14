@@ -15,12 +15,12 @@ const IntroductionSection = () => {
               expression of love’s endless potential.
             </p>
             <div className="flex justify-center">
-              <a
-                href="/ShopPage"
+              <Link
+                to="/ShopPage"
                 className="bg-white text-black px-4 py-2 mt-4"
               >
                 shop now
-              </a>
+              </Link>
             </div>
           </div>
         </div>

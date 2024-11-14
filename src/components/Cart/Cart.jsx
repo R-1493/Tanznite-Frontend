@@ -132,7 +132,6 @@ const Cart = (props) => {
                 className="bg-slate-300 border-b items-center justify-between dark:bg-gray-50 dark:border-gray-100 hover:bg-gray-400 dark:hover:bg-gray-100"
               >
                 <td className="p-4">
-                 
                   <div className="relative flex items-center justify-center h-full ">
                     <img
                       alt={product.jewelry[0].jewelryName}
