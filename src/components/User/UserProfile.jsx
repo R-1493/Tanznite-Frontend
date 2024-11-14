@@ -50,11 +50,15 @@ function UserProfile(props) {
     });
 
     axios
-      .patch("http://localhost:5125/api/v1/User/UpdateProfile", updatedData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .patch(
+        "https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/User/UpdateProfile",
+        updatedData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => {
         setUserData(res.data);
         setIsOpen(false);

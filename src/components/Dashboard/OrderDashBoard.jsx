@@ -7,7 +7,8 @@ function OrderDashBoard(props) {
   const [error, setError] = useState(null);
 
   function fetchData() {
-    let url = "http://localhost:5125/api/v1/Order";
+    let url =
+      "https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/Order";
     axios
       .get(url)
       .then((response) => {

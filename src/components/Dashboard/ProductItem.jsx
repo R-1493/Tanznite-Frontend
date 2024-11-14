@@ -30,7 +30,7 @@ function ProductItem(props) {
   }
   function updateProduct() {
     const token = localStorage.getItem("token");
-    const url = `http://localhost:5125/api/v1/Gemstone/${product.gemstoneId}`;
+    const url = `https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/Gemstone/${product.gemstoneId}`;
     const updatedData = {};
     Object.keys(productInfo).forEach((key) => {
       if (productInfo[key]) {
@@ -54,7 +54,7 @@ function ProductItem(props) {
   }
   function deleteProductById() {
     const token = localStorage.getItem("token");
-    const url = `http://localhost:5125/api/v1/Gemstone/${product.gemstoneId}`;
+    const url = `https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/Gemstone/${product.gemstoneId}`;
     axios
       .delete(url, {
         headers: {

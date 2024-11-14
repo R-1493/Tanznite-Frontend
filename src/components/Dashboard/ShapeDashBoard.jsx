@@ -33,7 +33,7 @@ function ShapeDashBoard(props) {
 
   function fetchData() {
     let url =
-      "http://localhost:5125/api/v1/GemstoneShape?Limit=100&Offset=0&MinPrice=0&MaxPrice=100000";
+      "https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/GemstoneShape?Limit=100&Offset=0&MinPrice=0&MaxPrice=100000";
     axios
       .get(url)
       .then((response) => {
@@ -52,7 +52,7 @@ function ShapeDashBoard(props) {
   console.log(gemstoneList);
   function fetchGemstone() {
     let url =
-      "http://localhost:5125/api/v1/Gemstone?Limit=100&Offset=0&MinPrice=0&MaxPrice=100000";
+      "https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/Gemstone?Limit=100&Offset=0&MinPrice=0&MaxPrice=100000";
     axios
       .get(url)
       .then((response) => {
@@ -79,7 +79,7 @@ function ShapeDashBoard(props) {
   }
   function createGemstoneShape() {
     const token = localStorage.getItem("token");
-    const url = "http://localhost:5125/api/v1/GemstoneShape";
+    const url = "https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/GemstoneShape";
     axios
       .post(url, productInfo, {
         headers: {

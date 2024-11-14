@@ -6,7 +6,8 @@ function UserOrderHistory(props) {
   const [orderList, setOrderList] = useState([]);
   function getOrderByUserId() {
     const token = localStorage.getItem("token");
-    const url = "http://localhost:5125/api/v1/Order/Order";
+    const url =
+      "https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/Order/Order";
     axios
       .get(url, {
         headers: {

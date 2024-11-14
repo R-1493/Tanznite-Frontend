@@ -31,7 +31,7 @@ function ShapeItem(props) {
   // Function to update product
   function updateProduct() {
     const token = localStorage.getItem("token");
-    const url = `http://localhost:5125/api/v1/GemstoneShape/${product.gemstoneShapeId}`;
+    const url = `https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/GemstoneShape/${product.gemstoneShapeId}`;
 
     const updatedData = {};
 
@@ -68,7 +68,7 @@ function ShapeItem(props) {
 
   function deleteProductById() {
     const token = localStorage.getItem("token");
-    const url = `http://localhost:5125/api/v1/GemstoneShape/${product.gemstoneShapeId}`;
+    const url = `https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/GemstoneShape/${product.gemstoneShapeId}`;
     axios
       .delete(url, {
         headers: {

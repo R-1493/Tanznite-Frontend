@@ -6,11 +6,14 @@ function UserItem(props) {
   function deleteUser() {
     const token = localStorage.getItem("token");
     axios
-      .delete(`http://localhost:5125/api/v1/User/${user.userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .delete(
+        `https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/User/${user.userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => {
         console.log(res);
         if (res.status === 200) {

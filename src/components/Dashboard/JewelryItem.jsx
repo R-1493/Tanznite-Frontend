@@ -29,7 +29,7 @@ function JewelryItem(props) {
   }
   function updateProduct() {
     const token = localStorage.getItem("token");
-    const url = `http://localhost:5125/api/v1/Jewelry/${product.jewelryId}`;
+    const url = `https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/Jewelry/${product.jewelryId}`;
     const updatedData = {};
     Object.keys(productInfo).forEach((key) => {
       if (productInfo[key]) {
@@ -53,7 +53,7 @@ function JewelryItem(props) {
   }
   function deleteProductById() {
     const token = localStorage.getItem("token");
-    const url = `http://localhost:5125/api/v1/Jewelry/${product.jewelryId}`;
+    const url = `https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/Jewelry/${product.jewelryId}`;
     axios
       .delete(url, {
         headers: {

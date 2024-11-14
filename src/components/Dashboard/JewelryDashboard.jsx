@@ -32,7 +32,7 @@ function JewelryDashboard(props) {
 
   function fetchData() {
     let url =
-      "http://localhost:5125/api/v1/Jewelry?Limit=100&Offset=0&MinPrice=0&MaxPrice=100000";
+      "https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/Jewelry?Limit=100&Offset=0&MinPrice=0&MaxPrice=100000";
     axios
       .get(url)
       .then((response) => {
@@ -58,7 +58,7 @@ function JewelryDashboard(props) {
 
   function createJewelry() {
     const token = localStorage.getItem("token");
-    const url = "http://localhost:5125/api/v1/Jewelry";
+    const url = "https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/Jewelry";
     axios
       .post(url, productInfo, {
         headers: {

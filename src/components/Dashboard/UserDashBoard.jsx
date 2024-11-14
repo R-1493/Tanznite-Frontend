@@ -7,11 +7,14 @@ function UserDashBoard(props) {
   function fetchUserList() {
     const token = localStorage.getItem("token");
     axios
-      .get("http://localhost:5125/api/v1/User", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get(
+        "https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/User",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => setUserList(res.data))
       .catch((error) => console.log(error));
   }

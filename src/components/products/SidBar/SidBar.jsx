@@ -144,7 +144,8 @@ function SidBar(props) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   function fetchData() {
-    let url = "http://localhost:5125/api/v1/Categories";
+    let url =
+      "https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/Categories";
     axios
       .get(url)
       .then((res) => {

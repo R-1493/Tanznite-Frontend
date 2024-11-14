@@ -68,7 +68,8 @@ const Cart = (props) => {
       navigate("/login");
       return;
     }
-    const url = "http://localhost:5125/api/v1/Order";
+    const url =
+      "https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/Order";
     axios
       .post(
         url,

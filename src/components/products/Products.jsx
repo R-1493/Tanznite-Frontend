@@ -43,9 +43,9 @@ function Products(props) {
   const limit = 6;
   const offset = (page - 1) * limit;
   const urls = [
-    "http://localhost:5125/api/v1/Gemstone",
-    "http://localhost:5125/api/v1/GemstoneShape",
-    "http://localhost:5125/api/v1/Jewelry",
+    "https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/Gemstone",
+    "https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/GemstoneShape",
+    "https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/Jewelry",
   ];
 
   const fetchData = async () => {

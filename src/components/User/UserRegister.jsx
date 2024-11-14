@@ -29,7 +29,8 @@ function UserRegister() {
   const navigate = useNavigate();
 
   function registerNewUser() {
-    const userUrl = "http://localhost:5125/api/v1/User/SignUp";
+    const userUrl =
+      "https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/User/SignUp";
     axios
       .post(userUrl, userInfo)
       .then((res) => {

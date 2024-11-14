@@ -41,7 +41,7 @@ function ProductDashBoard(props) {
 
   function fetchData() {
     let url =
-      "http://localhost:5125/api/v1/Gemstone?Limit=100&Offset=0&MinPrice=0&MaxPrice=100000";
+      "https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/Gemstone?Limit=100&Offset=0&MinPrice=0&MaxPrice=100000";
     axios
       .get(url)
       .then((response) => {
@@ -59,7 +59,7 @@ function ProductDashBoard(props) {
   }, []);
 
   function fetchCategory() {
-    let url = "http://localhost:5125/api/v1/Categories";
+    let url = "https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/Categories";
     axios
       .get(url)
       .then((response) => {
@@ -92,7 +92,7 @@ function ProductDashBoard(props) {
 
   function createGemstone() {
     const token = localStorage.getItem("token");
-    const url = "http://localhost:5125/api/v1/Gemstone";
+    const url = "https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/Gemstone";
     axios
       .post(url, productInfo, {
         headers: {
@@ -115,7 +115,7 @@ function ProductDashBoard(props) {
   console.log(productInfo);
   function createCategory() {
     const token = localStorage.getItem("token");
-    const url = "http://localhost:5125/api/v1/Categories";
+    const url = "https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/Categories";
 
     if (!CategoryInfo.categoryName.trim()) {
       alert("Category name cannot be empty or whitespace.");
