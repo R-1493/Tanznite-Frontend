@@ -19,7 +19,6 @@ import ShapeDashBoard from "./components/Dashboard/ShapeDashBoard";
 import JewelryDashboard from "./components/Dashboard/JewelryDashboard";
 import UserOrderHistory from "./components/Orders/UserOrderHistory";
 import Address from "./components/Address/Address";
-
 function App() {
   const steps = ["Gemstone Category", "Gemstone Shape", "Jeweller Setting"];
 
@@ -48,10 +47,6 @@ function App() {
   function getUserData() {
     setIsUserDataLoading(true);
     const token = localStorage.getItem("token");
-    if (!token) {
-      setIsUserDataLoading(false);
-      return;
-    }
     axios
       .get(
         "https://sda-3-online-backend-teamwork-x5ff.onrender.com/api/v1/User/Profile",
@@ -68,10 +63,6 @@ function App() {
       .catch((err) => {
         setIsUserDataLoading(false);
         console.log(err);
-        if (err.response && err.response.status === 401) {
-          localStorage.removeItem("token");
-          setUserData(null);
-        }
       });
   }
 
