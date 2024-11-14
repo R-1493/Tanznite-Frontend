@@ -1,5 +1,6 @@
 import React from "react";
 import background from "../../images/Background/backgroundIntroduction.svg";
+import { Link } from "react-router-dom";
 
 const IntroductionSection = () => {
   return (
