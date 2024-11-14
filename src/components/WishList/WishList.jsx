@@ -55,7 +55,6 @@ const WishList = (props) => {
                     {product?.shapes[0]?.gemstoneImage && (
                       <img
                         alt={product?.shapes[0]?.gemstoneType}
-                        // src="https://www.tanzanite-int.com/wp-content/uploads/2019/09/loose-oval-product-768x514.png"
                         src={product.shapes[0].gemstoneImage}
                         className="absolute object-cover w-16 md:w-32 max-w-full max-h-full"
                         style={{ zIndex: 2 }}

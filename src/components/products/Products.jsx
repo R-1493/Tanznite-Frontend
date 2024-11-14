@@ -80,7 +80,6 @@ function Products(props) {
     fetchData();
   }, [activeStep, offset, userInput, minPrice, maxPrice]);
 
-
   const handleChange = (event, value) => {
     setPage(value);
   };

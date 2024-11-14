@@ -109,7 +109,6 @@ function ProductDetail(props) {
                           {selectedProduct?.shapes[0]?.gemstoneImage && (
                             <img
                               alt={selectedProduct?.shapes[0]?.gemstoneType}
-                              // src="https://www.tanzanite-int.com/wp-content/uploads/2019/09/loose-oval-product-768x514.png"
                               src={selectedProduct.shapes[0].gemstoneImage}
                               className="absolute object-cover h-full w-full"
                               style={{ zIndex: 2 }}

@@ -1,5 +1,4 @@
 import React from "react";
-import TextField from "@mui/material/TextField";
 function PriceRangeForm(props) {
   const { setMinPrice, setMaxPrice, minPrice, maxPrice } = props;
 
