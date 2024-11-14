@@ -1,4 +1,3 @@
-// App.jsx
 import { React, useState, useEffect } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/HomePage";
@@ -20,6 +19,7 @@ import ShapeDashBoard from "./components/Dashboard/ShapeDashBoard";
 import JewelryDashboard from "./components/Dashboard/JewelryDashboard";
 import UserOrderHistory from "./components/Orders/UserOrderHistory";
 import Address from "./components/Address/Address";
+
 function App() {
   const steps = ["Gemstone Category", "Gemstone Shape", "Jeweller Setting"];
 
@@ -58,7 +58,6 @@ function App() {
         }
       )
       .then((res) => {
-        // null => res.data
         setUserData(res.data);
         setIsUserDataLoading(false);
       })
